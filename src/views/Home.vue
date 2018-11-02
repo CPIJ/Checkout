@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    HelloWorld
     <camera-preview></camera-preview>
   </div>
 </template>

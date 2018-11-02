@@ -1,5 +1,5 @@
 <template>
-    <p>CameraPreview</p>
+    
 </template>
 
 <script>
