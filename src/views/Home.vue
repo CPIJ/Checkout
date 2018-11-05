@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    HelloWorld
     <camera-preview></camera-preview>
   </div>
 </template>
@@ -16,3 +15,11 @@ export default {
   },
 };
 </script>
+
+<style>
+* {
+  padding: 0;
+  margin: 0;
+  background: black;
+}
+</style>
