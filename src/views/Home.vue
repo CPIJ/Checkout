@@ -20,23 +20,12 @@ export default {
   },
 
   mounted() {
-    this.output = this.$refs.output.getContext('2d')
+    this.output = this.$refs.output.getContext("2d");
   },
 
   methods: {
     onProductDetected(result) {
-      const imageData = this.output.createImageData(
-        result.width,
-        result.height
-      );
-
-      const data = imageData.data;
-
-      for (let i = 0; i < result.width * result.height * 4; i++) {
-        data[i] = result.pixels[i];
-      }
-
-      this.output.putImageData(imageData, 0, 0);
+      this.output.putImageData(result.image, 0, 0, 0, 0, result.width, result.height);
     },
 
     resizeCanvas(width, height) {
