@@ -3,7 +3,14 @@
       <div class="container">
           <canvas ref=output></canvas>
         </div>
-        <video id="video" v-on:canplay="setCanvasDimensions" autoplay ref=video class="hidden">Your browser does not support the video tag.</video>
+        <video 
+          id="video" 
+          v-on:canplay="setCanvasDimensions" 
+          autoplay 
+          ref=video 
+          class="hidden">
+            Your browser does not support the video tag.
+          </video>
     </section>
 </template>
 
@@ -24,27 +31,8 @@ export default {
   async mounted() {
     this.output = this.$refs.output.getContext("2d");
     this.video = this.$refs.video;
-
-    const stream = await navigator.mediaDevices.getUserMedia(
-      this.videoConstraints
-    );
-    this.video.src = window.URL.createObjectURL(stream);
-
-    tracking.track("#video", this.tracker);
-
-    this.tracker.on("track", result => {
-      const imageData = this.output.createImageData(
-        result.width,
-        result.height
-      );
-      const data = imageData.data;
-
-      for (let i = 0; i < result.width * result.height * 4; i++) {
-        data[i] = result.pixels[i];
-      }
-
-      this.output.putImageData(imageData, 0, 0);
-    });
+    await this.startVideo();
+    this.startTracking();
   },
 
   methods: {
@@ -52,6 +40,33 @@ export default {
       this.$refs.output.width = this.video.videoWidth;
       this.$refs.output.height = this.video.videoHeight;
       this.output = this.$refs.output.getContext("2d");
+    },
+
+    async startVideo() {
+      const stream = await navigator.mediaDevices.getUserMedia(
+        this.videoConstraints
+      );
+
+      this.video.srcObject = stream;
+    },
+
+    async startTracking() {
+      tracking.track("#video", this.tracker);
+
+      this.tracker.on("track", result => {
+        const imageData = this.output.createImageData(
+          result.width,
+          result.height
+        );
+
+        const data = imageData.data;
+
+        for (let i = 0; i < result.width * result.height * 4; i++) {
+          data[i] = result.pixels[i];
+        }
+
+        this.output.putImageData(imageData, 0, 0);
+      });
     }
   },
 
