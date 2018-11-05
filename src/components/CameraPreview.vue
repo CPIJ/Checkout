@@ -1,11 +1,11 @@
 <template>
     <section>
       <div class="container">
-          <canvas ref=output></canvas>
+          <slot></slot>
         </div>
         <video 
           id="video" 
-          v-on:canplay="setCanvasDimensions" 
+          v-on:canplay="canplay" 
           autoplay 
           ref=video 
           class="hidden">
@@ -29,19 +29,12 @@ export default {
   },
 
   async mounted() {
-    this.output = this.$refs.output.getContext("2d");
     this.video = this.$refs.video;
     await this.startVideo();
     this.startTracking();
   },
 
   methods: {
-    setCanvasDimensions() {
-      this.$refs.output.width = this.video.videoWidth;
-      this.$refs.output.height = this.video.videoHeight;
-      this.output = this.$refs.output.getContext("2d");
-    },
-
     async startVideo() {
       const stream = await navigator.mediaDevices.getUserMedia(
         this.videoConstraints
@@ -54,19 +47,12 @@ export default {
       tracking.track("#video", this.tracker);
 
       this.tracker.on("track", result => {
-        const imageData = this.output.createImageData(
-          result.width,
-          result.height
-        );
-
-        const data = imageData.data;
-
-        for (let i = 0; i < result.width * result.height * 4; i++) {
-          data[i] = result.pixels[i];
-        }
-
-        this.output.putImageData(imageData, 0, 0);
+        this.$emit("product-detected", result);
       });
+    },
+
+    canplay() {
+      this.$emit("video-ready", this.video.videoWidth, this.video.videoHeight);
     }
   },
 
