@@ -1,6 +1,6 @@
 <template>
     <section>
-      <div class="container">
+      <!-- <div class="container">
         <div class="camera-preview">
           <video 
             id="video" 
@@ -11,13 +11,21 @@
             <button @click="capture" class="reset circle" id="capture"></button>
             <button class="reset circle" id="shopping-cart"><i class="fas fa-list"></i></button>
           </div>
+      </div> -->
+      <div id="video-bg">
+       <video 
+        id="video" 
+        autoplay
+        ref=video>
+          Your browser does not support the video tag.
+      </video>
       </div>
     </section>
 </template>
 
 <script>
-import ProductClassifier from '@/classes/ProductClassifier'
-import { mediaConstraints } from '@/classes/utils'
+import ProductClassifier from "@/classes/ProductClassifier";
+import { mediaConstraints } from "@/classes/utils";
 
 export default {
   name: "camera-preview",
@@ -36,13 +44,14 @@ export default {
 
   methods: {
     async capture() {
-      const predictions = await this.classifier.predict(this.getImage())
-      console.log(predictions)
+      const predictions = await this.classifier.predict(this.getImage());
+
+      if (predictions.length > 0) {
+        this.$emit("product-classified", predictions[0]);
+      }
     },
 
-    getImage() {
-
-    }
+    getImage() {}
   }
 };
 </script>
@@ -56,7 +65,7 @@ export default {
 }
 
 .camera-preview {
-  height: 80%;
+  height: 100%;
   width: 100%;
   position: absolute;
   top: 50%;
@@ -80,7 +89,7 @@ export default {
 }
 
 #capture {
-  bottom: 0%;
+  bottom: 2.5%;
   left: calc(50vw - (18vw / 2));
   background: salmon;
   border: 4px solid lightgrey;
@@ -93,19 +102,37 @@ export default {
 
 #shopping-cart {
   left: 2.5%;
-  bottom: 0%;
+  bottom: 2.5%;
   background: white;
   font-size: 1em;
   color: gray;
 }
 
-video {
-  width: 100%;
-  height: auto;
-  max-height: 100%;
-  max-width: 100%;
+#video-bg {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  overflow: hidden;
+}
+#video-bg > video {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/* 1. No object-fit support: */
+@media (min-aspect-ratio: 16/9) {
+  #video-bg > video { height: 300%; top: -100%; }
+}
+@media (max-aspect-ratio: 16/9) {
+  #video-bg > video { width: 300%; left: -100%; }
+}
+/* 2. If supporting object-fit, overriding (1): */
+@supports (object-fit: cover) {
+  #video-bg > video {
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
 }
 </style>
