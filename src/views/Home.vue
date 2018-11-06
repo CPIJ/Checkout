@@ -1,12 +1,13 @@
 <template>
   <div class="home">
-    <product-thumbnail
+    <camera-preview
+      @product-classified="onProductClassified"
+    />
+        <product-thumbnail
+        class="thumbnail"
       v-for="product of products"
       :key="product.ean"
       v-on:timeout-elapsed="addProduct"
-    />
-    <camera-preview
-      @product-classified="onProductClassified"
     />
   </div>
 </template>
@@ -31,10 +32,10 @@ export default {
 
   methods: {
     onProductClassified(product) {
-      this.products.push(product)
+      this.products.push(product);
     },
     addProduct(product) {
-      console.log('Add product', product)
+      console.log("Add product", product);
     }
   }
 };
@@ -48,6 +49,8 @@ export default {
   color: white;
 }
 
-.home {
+.thumbnail {
+  position: absolute;
+  z-index: 1;
 }
 </style>

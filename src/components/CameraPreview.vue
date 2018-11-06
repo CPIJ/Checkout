@@ -1,25 +1,12 @@
 <template>
     <section>
-      <!-- <div class="container">
-        <div class="camera-preview">
-          <video 
-            id="video" 
-            autoplay
-            ref=video>
-              Your browser does not support the video tag.
-            </video>
-            <button @click="capture" class="reset circle" id="capture"></button>
-            <button class="reset circle" id="shopping-cart"><i class="fas fa-list"></i></button>
-          </div>
-      </div> -->
       <div id="video-bg">
-       <video 
-        id="video" 
-        autoplay
-        ref=video>
+       <video id="video" autoplay ref=video>
           Your browser does not support the video tag.
       </video>
       </div>
+      <button @click="capture" class="reset circle" id="capture"></button>
+      <button class="reset circle" id="shopping-cart"><i class="fas fa-list"></i></button>
     </section>
 </template>
 
@@ -57,22 +44,6 @@ export default {
 </script>
 
 <style>
-.container {
-  background-color: black;
-  height: 100vh;
-  width: 100vw;
-  position: relative;
-}
-
-.camera-preview {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: black;
-}
-
 .reset {
   margin: 0;
   padding: 0;
@@ -110,7 +81,10 @@ export default {
 
 #video-bg {
   position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: hidden;
 }
 #video-bg > video {
@@ -122,16 +96,24 @@ export default {
 }
 /* 1. No object-fit support: */
 @media (min-aspect-ratio: 16/9) {
-  #video-bg > video { height: 300%; top: -100%; }
+  #video-bg > video {
+    height: 300%;
+    top: -100%;
+  }
 }
 @media (max-aspect-ratio: 16/9) {
-  #video-bg > video { width: 300%; left: -100%; }
+  #video-bg > video {
+    width: 300%;
+    left: -100%;
+  }
 }
 /* 2. If supporting object-fit, overriding (1): */
 @supports (object-fit: cover) {
   #video-bg > video {
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 }
