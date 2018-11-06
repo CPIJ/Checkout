@@ -1,10 +1,6 @@
 <template>
   <div class="home">
-    <camera-preview 
-      v-on:product-detected="onProductDetected" 
-      v-on:video-ready="resizeCanvas"
-    >
-      <canvas ref=output>Hi</canvas>
+    <camera-preview>
     </camera-preview>
   </div>
 </template>
@@ -19,21 +15,7 @@ export default {
     CameraPreview
   },
 
-  mounted() {
-    this.output = this.$refs.output.getContext("2d");
-  },
-
-  methods: {
-    onProductDetected(result) {
-      this.output.putImageData(result.image, 0, 0, 0, 0, result.width, result.height);
-    },
-
-    resizeCanvas(width, height) {
-      this.$refs.output.width = width;
-      this.$refs.output.height = height;
-      this.output = this.$refs.output.getContext("2d");
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -42,5 +24,6 @@ export default {
   padding: 0;
   margin: 0;
   background: black;
+  color: white;
 }
 </style>
