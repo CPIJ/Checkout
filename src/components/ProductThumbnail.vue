@@ -14,17 +14,22 @@ export default {
     product: {
       type: Product,
       required: true
+    },
+    timeout: {
+      type: Number,
+      required: false,
+      default: 5000
     }
   },
-  
+
   mounted() {
     this.startTimer()
   },
 
   methods: {
     async startTimer() {
-      await timeout(5000);
-      this.$emit("timeout-elapsed", this.pr);
+      await timeout(this.timeout);
+      this.$emit("timeout-elapsed", this.product);
     }
   }
 };

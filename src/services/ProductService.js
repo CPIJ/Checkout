@@ -4,7 +4,7 @@ const products = [
     Product.test
 ]
 
-export class ProductService {
+export default class ProductService {
     getByEan(eanCode) {
         return products.find(p => p.ean === eanCode)
     }

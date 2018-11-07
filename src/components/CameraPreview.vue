@@ -12,6 +12,7 @@
 
 <script>
 import ProductClassifier from "@/classes/ProductClassifier";
+import ProductService from "@/services/ProductService"
 import { mediaConstraints } from "@/classes/utils";
 
 export default {
@@ -19,7 +20,8 @@ export default {
 
   data() {
     return {
-      classifier: new ProductClassifier()
+      classifier: new ProductClassifier(),
+      productService: new ProductService()
     };
   },
 
@@ -34,7 +36,8 @@ export default {
       const predictions = await this.classifier.predict(this.getImage());
 
       if (predictions.length > 0) {
-        this.$emit("product-classified", predictions[0]);
+        const product = this.productService.getByEan(predictions[0].ean)
+        this.$emit("product-classified", product);
       }
     },
 
