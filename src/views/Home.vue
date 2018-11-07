@@ -1,13 +1,12 @@
 <template>
   <div class="home">
-    <camera-preview
-      @product-classified="onProductClassified"
-    />
-        <product-thumbnail
-        class="thumbnail"
-      v-for="product of products"
+    <camera-preview @product-classified="onProductClassified"/>
+    <product-thumbnail
+      class="thumbnail"
+      v-for="product of productThumbnails"
       :key="product.ean"
       v-on:timeout-elapsed="addProduct"
+      :product="product"
     />
   </div>
 </template>
@@ -26,16 +25,17 @@ export default {
 
   data() {
     return {
-      products: []
+      productThumbnails: []
     };
   },
 
   methods: {
     onProductClassified(product) {
-      this.products.push(product);
+      this.productThumbnails.push(product);
     },
     addProduct(product) {
       console.log("Add product", product);
+      this.productThumbnails = this.productThumbnails.filter(p => p.ean !== product.ean)
     }
   }
 };
