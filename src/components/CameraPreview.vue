@@ -28,7 +28,7 @@ export default {
   },
 
   async mounted() {
-    await this.classifier.init()
+    await this.classifier.init();
     const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
     this.$refs.video.srcObject = stream;
     this.$refs.video.play();
@@ -73,8 +73,18 @@ export default {
       bufferCanvas.height = source.videoHeight;
       bufferContext.drawImage(source, 0, 0);
 
-      tnContext.drawImage(bufferCanvas, topCrop.x, topCrop.y, width, height, 0, 0, width, height)
-      return tnCanvas
+      tnContext.drawImage(
+        bufferCanvas,
+        topCrop.x,
+        topCrop.y,
+        width,
+        height,
+        0,
+        0,
+        width,
+        height
+      );
+      return tnCanvas;
     }
   }
 };

@@ -1,3 +1,5 @@
+import labelMapping from "@/assets/class_names.transform.json"
+
 export const randomIntBetween = (min, max) => Math.floor(Math.random() * max) + min;
 
 export const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -14,3 +16,8 @@ export const isMobile = () =>
 export const mediaConstraints = isMobile()
   ? { video: { facingMode: { exact: "environment" } } }
   : { video: true };
+
+
+console.log(labelMapping)
+
+export const transformLabels = (original) => original.map(label => labelMapping[label] ? labelMapping[label] : label)
