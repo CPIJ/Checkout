@@ -1,18 +1,20 @@
 <template>
   <div class="home">
     <camera-preview @product-classified="onProductClassified"/>
-    <product-thumbnail
-      class="thumbnail"
-      v-for="product of productThumbnails"
-      :key="product.ean"
-      v-on:timeout-elapsed="addProduct"
-      :product="product"
-    />
+    <div class="thumbnails">
+      <product-thumbnail
+        class="thumbnail"
+        v-for="product of productThumbnails"
+        :key=""
+        v-on:timeout-elapsed="addProduct"
+        :product="product"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import Product from "@/models/Product.js"
 import CameraPreview from "@/components/CameraPreview.vue";
 import ProductThumbnail from "@/components/ProductThumbnail.vue";
 
@@ -25,7 +27,7 @@ export default {
 
   data() {
     return {
-      productThumbnails: []
+      productThumbnails: [Product.test]
     };
   },
 
@@ -45,12 +47,12 @@ export default {
 * {
   padding: 0;
   margin: 0;
-  background: black;
   color: white;
 }
 
-.thumbnail {
-  position: absolute;
-  z-index: 1;
+.thumbnails {
+  width: 100%;
+  height: 10vh;
+  position: relative;
 }
 </style>

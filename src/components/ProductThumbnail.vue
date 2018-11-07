@@ -1,6 +1,6 @@
 <template>
     <div class="product-thumbnail">
-        A
+        <img :src="product.thumbnail">
     </div>
 </template>
 
@@ -23,17 +23,33 @@ export default {
   },
 
   mounted() {
-    this.startTimer()
+    this.startTimer();
   },
 
   methods: {
     async startTimer() {
-      await timeout(this.timeout);
-      this.$emit("timeout-elapsed", this.product);
+      if (this.timeout != -1) {
+        await timeout(this.timeout);
+        this.$emit("timeout-elapsed", this.product);
+      }
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
+.product-thumbnail {
+  width: 33%;
+  height: 100%;
+  padding-top: 2vh;
+  text-align: center;
+    float: left;
+}
+
+.product-thumbnail img {
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid steelblue;
+  border-radius: 50%;
+}
 </style>
