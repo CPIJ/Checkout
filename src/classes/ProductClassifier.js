@@ -6,25 +6,17 @@ import labels from "@/assets/class_names.json";
 export default class ProductClassifier {
   async init() {
     this.model = await downloadModel();
-    console.log(transformLabels(labels))
   }
 
   async predict(image) {
-    
     const predictions = await yolo(image, this.model, { classNames: transformLabels(labels) });
-    const validated = this.validatePredictions(predictions)
-
-    console.log(validated)
-
-    return [
-      {
-        ean: Product.test.ean,
-        probability: 100
-      }
-    ];
+    return this.validatePredictions(predictions).map(p => ({
+      ean: p.className,
+      probability: p.classProb
+    }));
   }
 
   validatePredictions(predictions) {
-    return predictions.filter(p => /^\d+$/.test(p.className))
+    return predictions.filter(p => /^\d+$/.test(p.className));
   }
 }
