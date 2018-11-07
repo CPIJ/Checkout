@@ -5,7 +5,7 @@
       <product-thumbnail
         class="thumbnail"
         v-for="product of productThumbnails"
-        :key=""
+        :key="product.ean"
         v-on:timeout-elapsed="addProduct"
         :product="product"
       />
@@ -19,7 +19,7 @@ import CameraPreview from "@/components/CameraPreview.vue";
 import ProductThumbnail from "@/components/ProductThumbnail.vue";
 
 export default {
-  name: "home",
+  name: "shop-view",
   components: {
     CameraPreview,
     ProductThumbnail
