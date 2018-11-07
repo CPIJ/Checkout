@@ -18,6 +18,4 @@ export const mediaConstraints = isMobile()
   : { video: true };
 
 
-console.log(labelMapping)
-
 export const transformLabels = (original) => original.map(label => labelMapping[label] ? labelMapping[label] : label)
