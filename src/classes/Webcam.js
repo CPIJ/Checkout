@@ -43,14 +43,14 @@ export class Webcam {
    * Captures a frame from the webcam and normalizes it between -1 and 1.
    * Returns a batched image (1-element batch) of shape [1, w, h, c].
    */
-  capture() {
+  static capture(webcamElement) {
     return tf.tidy(() => {
       // Reads the image as a Tensor from the webcam <video> element.
-      const webcamImage = tf.fromPixels(this.webcamElement);
+      const webcamImage = tf.fromPixels(webcamElement);
 
       // Crop the image so we're using the center square of the rectangular
       // webcam.
-      const croppedImage = this.cropImage(webcamImage);
+      const croppedImage = Webcam.cropImage(webcamImage);
 
       // Expand the outer most dimension so we have a batch size of 1.
       const batchedImage = croppedImage.expandDims(0);
@@ -65,7 +65,7 @@ export class Webcam {
    * Crops an image tensor so we get a square image with no white space.
    * @param {Tensor4D} img An input image Tensor to crop.
    */
-  cropImage(img) {
+  static cropImage(img) {
     const size = Math.min(img.shape[0], img.shape[1]);
     const centerHeight = img.shape[0] / 2;
     const beginHeight = centerHeight - size / 2;

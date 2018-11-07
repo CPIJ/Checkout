@@ -12,8 +12,10 @@
 
 <script>
 import ProductClassifier from "@/classes/ProductClassifier";
-import ProductService from "@/services/ProductService"
+import ProductService from "@/services/ProductService";
+import smartcrop from "smartcrop";
 import { mediaConstraints } from "@/classes/utils";
+import { Webcam } from "@/classes/Webcam";
 
 export default {
   name: "camera-preview",
@@ -26,6 +28,7 @@ export default {
   },
 
   async mounted() {
+    await this.classifier.init()
     const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
     this.$refs.video.srcObject = stream;
     this.$refs.video.play();
@@ -33,15 +36,46 @@ export default {
 
   methods: {
     async capture() {
-      const predictions = await this.classifier.predict(this.getImage());
+      const image = await this.getImage();
+      const predictions = await this.classifier.predict(image);
 
       if (predictions.length > 0) {
-        const product = this.productService.getByEan(predictions[0].ean)
+        const product = this.productService.getByEan(predictions[0].ean);
         this.$emit("product-classified", product);
       }
     },
 
-    getImage() {}
+    async getImage() {
+      const image = await this.snap(this.$refs.video, 416, 416);
+      return Webcam.capture(image);
+    },
+
+    async snap(source, width, height) {
+      var canvas = document.createElement("canvas");
+      canvas.height = source.videoHeight;
+      canvas.width = source.videoWidth;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+
+      const { topCrop } = await smartcrop.crop(canvas, {
+        width: width,
+        height: height
+      });
+
+      const tnCanvas = document.createElement("canvas");
+      const tnContext = tnCanvas.getContext("2d");
+      tnCanvas.width = width;
+      tnCanvas.height = height;
+
+      var bufferCanvas = document.createElement("canvas");
+      var bufferContext = bufferCanvas.getContext("2d");
+      bufferCanvas.width = source.videoWidth;
+      bufferCanvas.height = source.videoHeight;
+      bufferContext.drawImage(source, 0, 0);
+
+      tnContext.drawImage(bufferCanvas, topCrop.x, topCrop.y, width, height, 0, 0, width, height)
+      return tnCanvas
+    }
   }
 };
 </script>
