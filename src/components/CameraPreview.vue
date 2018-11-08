@@ -83,9 +83,9 @@ export default {
 
     async scanNewProduct() {
       const image = await this.getImage();
-      // Go to selector page
-      console.log("New image scanned go to page");
       this.scanMethod = "product";
+
+      this.$router.push({ name: "set-boundingbox", params: { image: image } });
     },
 
     async capture() {

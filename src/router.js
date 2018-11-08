@@ -17,7 +17,8 @@ export default new Router({
     {
       path: '/set-boundingbox',
       name: 'set-boundingbox',
-      component: BoundingboxView
+      component: BoundingboxView,
+      props: (route) => ({ image: route.params.image })
     }
   ],
 });
