@@ -5,14 +5,15 @@
           Your browser does not support the video tag.
       </video>
       </div>
-      <button @click="capture" class="reset circle" id="capture"></button>
-      <button class="reset circle" id="shopping-cart"><i class="fas fa-list"></i></button>
+      <button :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
+      <button  class="reset circle" id="shopping-cart"><i class="fas fa-list"></i></button>
     </section>
 </template>
 
 <script>
 import ProductClassifier from "@/classes/ProductClassifier";
 import ProductService from "@/services/ProductService";
+import BarcodeScanner from "@/classes/BarcodeScanner";
 import smartcrop from "smartcrop";
 import { mediaConstraints } from "@/classes/utils";
 import { Webcam } from "@/classes/Webcam";
@@ -23,7 +24,9 @@ export default {
   data() {
     return {
       classifier: new ProductClassifier(),
-      productService: new ProductService()
+      productService: new ProductService(),
+      barcodeScanner: new BarcodeScanner(),
+      scanMethod: "product"
     };
   },
 
@@ -35,19 +38,73 @@ export default {
   },
 
   methods: {
-    async capture() {
-      const image = await this.getImage();
-      const predictions = await this.classifier.predict(image);
+    async scanProduct() {
+      const image = await this.getImage(416, 416);
+      const imageData = Webcam.capture(image);
+      const predictions = await this.classifier.predict(imageData);
 
       if (predictions.length > 0) {
         const product = this.productService.getByEan(predictions[0].ean);
         this.$emit("product-classified", product);
+      } else {
+        alert("Dit product ken ik nog niet, wil je de barcode scannen?");
+        this.scanMethod = "barcode";
       }
     },
 
-    async getImage() {
-      const image = await this.snap(this.$refs.video, 416, 416);
-      return Webcam.capture(image);
+    async scanBarcode() {
+      const image = await this.getImage();
+      const barcode = this.barcodeScanner.fromImage(image);
+
+      if (barcode) {
+        const product = this.productService.getByEan(barcode);
+
+        if (!this.productService.isAvailableInPhs(product)) {
+          const wantsToHelp = confirm(
+            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
+          );
+
+          if (wantsToHelp) {
+            this.scanMethod = "new";
+          } else {
+            this.scanMethod = "product";
+            this.$emit("product-classified", product);
+          }
+        } else {
+          this.$emit("product-classified", product);
+        }
+      } else {
+        alert(
+          "Sorry, deze barcode kon ik niet goed zien. Wil je het nog eens proberen?"
+        );
+        this.scanMethod = "barcode";
+      }
+    },
+
+    async scanNewProduct() {
+      const image = await this.getImage();
+      // Go to selector page
+      console.log("New image scanned go to page");
+      this.scanMethod = "product";
+    },
+
+    async capture() {
+      switch (this.scanMethod) {
+        case "product":
+          await this.scanProduct();
+          break;
+        case "barcode":
+          await this.scanBarcode();
+          break;
+        case "new":
+          await this.scanNewProduct();
+      }
+    },
+
+    async getImage(width, height) {
+      const w = this.$refs.video.videoWidth;
+      const h = this.$refs.video.videoHeight;
+      return await this.snap(this.$refs.video, width || w, height || h);
     },
 
     async snap(source, width, height) {
@@ -106,10 +163,21 @@ export default {
   display: block;
 }
 
+#capture.product-active {
+  background-color: salmon;
+}
+
+#capture.barcode-active {
+  background-color: steelblue;
+}
+
+#capture.new-active {
+  background-color: orange;
+}
+
 #capture {
   bottom: 2.5%;
   left: calc(50vw - (18vw / 2));
-  background: salmon;
   border: 4px solid lightgrey;
 }
 
