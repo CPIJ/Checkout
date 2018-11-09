@@ -19,7 +19,8 @@ export default class ProductService {
   }
 
   async addToShoppingCart(product, userId) {
-    const cart = this.getCart(userId);
+    const doc = await  this.getCart(userId);
+    const cart = await doc.ref.get()
     const data = cart.data();
     const products = data.products;
     products.push(product.ean);
@@ -42,8 +43,6 @@ export default class ProductService {
       throw new Error("Multiple carts are not allowed.");
     }
 
-    const doc = cart.docs[0];
-
-    return await doc.ref.get();
+    return cart.docs[0];
   }
 }
