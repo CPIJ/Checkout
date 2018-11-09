@@ -6,7 +6,8 @@
       </video>
       </div>
       <button :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
-      <button  class="reset circle" id="shopping-cart"><i class="fas fa-list"></i></button>
+      <button  class="reset circle" id="settings"><i class="fas fa-list"></i></button>
+      <button @click="$router.push('/shopping-cart')"  class="reset circle" id="shopping-cart"><i class="fas fa-cart"></i></button>
     </section>
 </template>
 
@@ -186,8 +187,16 @@ export default {
   border: 4px solid white;
 }
 
+#settings {
+  left: 5%;
+  bottom: 2.5%;
+  background: white;
+  font-size: 1em;
+  color: gray;
+}
+
 #shopping-cart {
-  left: 2.5%;
+  right: 5%;
   bottom: 2.5%;
   background: white;
   font-size: 1em;

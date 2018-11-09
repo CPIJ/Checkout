@@ -32,6 +32,7 @@
          <td></td>
       </tr>
    </table>
+   <button @click="back" class="back"><fa icon="chevron-left"></fa></button>
    <br>
 </div>
 </template>
@@ -65,6 +66,10 @@ export default {
         this.products = this.products.filter(p => p.name !== product.name);
         //TODO: Update database
       }
+    },
+
+    back() {
+        this.$router.push({ name: 'shop' })
     }
   },
 
@@ -137,5 +142,13 @@ button.danger {
 
 button.change {
   background-color: lightblue;
+}
+
+.back {
+    position: fixed;
+    bottom: 0;
+    height: 8vh;
+    width: 100%;
+    background-color: lightblue;
 }
 </style>
