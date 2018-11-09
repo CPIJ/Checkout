@@ -44,7 +44,8 @@ export default {
       const predictions = await this.classifier.predict(imageData);
 
       if (predictions.length > 0) {
-        const product = this.productService.getByEan(predictions[0].ean);
+        const product = await this.productService.getByEan(predictions[0].ean);
+        console.log(product);
         this.$emit("product-classified", product);
       } else {
         alert("Dit product ken ik nog niet, wil je de barcode scannen?");
@@ -57,9 +58,9 @@ export default {
       const barcode = this.barcodeScanner.fromImage(image);
 
       if (barcode) {
-        const product = this.productService.getByEan(barcode);
+        const product = await this.productService.getByEan(barcode);
 
-        if (!this.productService.isAvailableInPhs(product)) {
+        if (!product.isAvailableInPhs) {
           const wantsToHelp = confirm(
             "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
           );
@@ -72,6 +73,7 @@ export default {
           }
         } else {
           this.$emit("product-classified", product);
+          this.scanMethod = "product";
         }
       } else {
         alert(

@@ -1,10 +1,10 @@
 export default class Product {
-  constructor(ean, thumbnail) {
-    this.ean = ean;
-    this.thumbnail = thumbnail
-  }
-
-  static get test() {
-    return new Product("0".repeat(13), 'https://www.newdirectionsaromatics.ca/images/products/main/CosmoWhiteBottle_Low.jpg');
+  constructor(props) {
+    this.ean = props.ean;
+    this.thumbnail = props.thumbnail;
+    this.description = props.description;
+    this.name = props.name;
+    this.price = props.price;
+    this.isAvailableInPhs = props.isAvailableInPhs;
   }
 }
