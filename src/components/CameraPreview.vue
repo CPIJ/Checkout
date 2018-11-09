@@ -6,8 +6,8 @@
       </video>
       </div>
       <button :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
-      <button  class="reset circle" id="settings"><i class="fas fa-list"></i></button>
-      <button @click="$router.push('/shopping-cart')"  class="reset circle" id="shopping-cart"><i class="fas fa-cart"></i></button>
+      <button  class="reset circle" id="settings"><fa icon="cog"></fa></button>
+      <button @click="$router.push('/shopping-cart')"  class="reset circle" id="shopping-cart"><fa icon="shopping-cart"></fa></button>
     </section>
 </template>
 
