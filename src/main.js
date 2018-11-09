@@ -3,6 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import ProductServicePlugin from "@/plugins/ProductServicePlugin"
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faPlus, faMinus, faTrash)
+Vue.component('fa', FontAwesomeIcon)
 
 Vue.use(ProductServicePlugin, {
   apiKey: process.env.VUE_APP_API_KEY,

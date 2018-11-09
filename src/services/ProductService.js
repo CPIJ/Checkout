@@ -19,8 +19,8 @@ export default class ProductService {
   }
 
   async addToShoppingCart(product, userId) {
-    const doc = await  this.getCart(userId);
-    const cart = await doc.ref.get()
+    const doc = await this.getCart(userId);
+    const cart = await doc.ref.get();
     const data = cart.data();
     const products = data.products;
     products.push(product.ean);
@@ -29,6 +29,23 @@ export default class ProductService {
     data.totalAmount += product.price;
 
     doc.ref.set(data);
+  }
+
+  async getShoppingCart(userId) {
+    const doc = await this.getCart(userId);
+    const cart = await doc.ref.get();
+    const data = cart.data();
+
+    const promises = data.products.map(ean => this.getByEan(ean));
+    const products = await Promise.all(promises);
+
+    const set = new Set(products.map(p => p.name));
+
+    return Array.from(set).map(name => ({
+      name: name,
+      amount: products.filter(p => p.name === name).length,
+      price: products.find(p => p.name === name).price
+    }));
   }
 
   async getCart(userId) {

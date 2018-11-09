@@ -37,7 +37,7 @@ export default {
       this.productThumbnails.push(product);
     },
     async addProduct(product) {
-      await this.$productService.addToShoppingCart(product, '0289b91a-0b9f-48c6-820a-b04b65540f51')
+      await this.$productService.addToShoppingCart(product, this.$store.state.userId)
       this.productThumbnails = this.productThumbnails.filter(p => p.ean !== product.ean)
     }
   }
