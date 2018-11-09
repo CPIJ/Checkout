@@ -17,6 +17,7 @@
 import Product from "@/models/Product.js"
 import CameraPreview from "@/components/CameraPreview.vue";
 import ProductThumbnail from "@/components/ProductThumbnail.vue";
+import ProductService from "@/services/ProductService"
 
 export default {
   name: "shop-view",
@@ -27,7 +28,8 @@ export default {
 
   data() {
     return {
-      productThumbnails: []
+      productThumbnails: [],
+      productService: new ProductService()
     };
   },
 
@@ -35,8 +37,8 @@ export default {
     onProductClassified(product) {
       this.productThumbnails.push(product);
     },
-    addProduct(product) {
-      console.log("Add product", product);
+    async addProduct(product) {
+      await this.productService.addToShoppingCart(product, '0289b91a-0b9f-48c6-820a-b04b65540f51')
       this.productThumbnails = this.productThumbnails.filter(p => p.ean !== product.ean)
     }
   }

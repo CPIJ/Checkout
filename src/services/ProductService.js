@@ -17,6 +17,7 @@ export default class ProductService {
     this.db = app.firestore();
     this.db.settings({ timestampsInSnapshots: true });
     this.products = this.db.collection("products");
+    this.shoppingCarts = this.db.collection("shoppingCarts");
   }
 
   async getByEan(eanCode) {
@@ -26,8 +27,26 @@ export default class ProductService {
     return new Product({ ean: eanCode, ...data });
   }
 
-  async isAvailableInPhs(product) {
-    const document = await this.products.doc(product.ean).get();
-    return document.data().isAvailableInPhs;
+  async addToShoppingCart(product, userId) {
+    const cart = await this.shoppingCarts
+      .where("userId", "==", userId)
+      .where("settled", "==", false)
+      .get();
+
+    if (cart.docs.length < 1) {
+      throw new Error("No cart found for user: " + userId);
+    } else if (cart.docs.length > 1) {
+      throw new Error("Multiple carts are not allowed.");
+    }
+
+    const doc = cart.docs[0];
+    const ref = await doc.ref.get()
+    const data = ref.data()
+    const products = data.products
+    products.push(product.ean)
+
+    doc.ref.set({
+      products: products
+    })
   }
 }
