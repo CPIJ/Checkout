@@ -1,4 +1,4 @@
-import labelMapping from "@/assets/class_names.transform.json"
+import labelMapping from "@/assets/class_names.transform.json";
 
 export const randomIntBetween = (min, max) => Math.floor(Math.random() * max) + min;
 
@@ -17,5 +17,5 @@ export const mediaConstraints = isMobile()
   ? { video: { facingMode: { exact: "environment" } } }
   : { video: true };
 
-
-export const transformLabels = (original) => original.map(label => labelMapping[label] ? labelMapping[label] : label)
+export const transformLabels = original => original.map(label => (labelMapping[label] ? labelMapping[label] : label));
+export const calculateViewWidth = value => (window.innerWidth * value) / 100
