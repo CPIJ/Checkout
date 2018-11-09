@@ -10,17 +10,17 @@
       <tr v-for="product of products" :key="product.name">
          <td>{{product.name}}</td>
          <td style="text-align: center;">
-            <button class="left change">
+            <button @click="changeValue(product, -1)" class="left change">
                <fa icon="minus"></fa>
             </button>
             {{product.amount}} 
-            <button class="right change">
+            <button @click="changeValue(product, 1)" class="right change">
                <fa icon="plus"></fa>
             </button>
          </td>
          <td>€{{calculatePrice(product)}}</td>
          <td>
-            <button class="right danger">
+            <button @click="remove(product)" class="right danger">
                <fa icon="trash"></fa>
             </button>
          </td>
@@ -52,7 +52,19 @@ export default {
 
   methods: {
     calculatePrice(product) {
-      return product.price * product.amount;
+      return (product.price * product.amount).toFixed(2);
+    },
+
+    changeValue(product, amount) {
+      product.amount += amount;
+      //TODO: Update the database
+    },
+
+    remove(product) {
+      if (confirm(`Weet je zeker dat je ${product.name} wil verwijderen?`)) {
+        this.products = this.products.filter(p => p.name !== product.name);
+        //TODO: Update database
+      }
     }
   },
 
@@ -112,18 +124,18 @@ button {
 }
 
 button.right {
-    float: right;
+  float: right;
 }
 
 button.left {
-    float: left;    
+  float: left;
 }
 
 button.danger {
-    background-color: salmon;
+  background-color: salmon;
 }
 
 button.change {
-    background-color: lightblue;
+  background-color: lightblue;
 }
 </style>
