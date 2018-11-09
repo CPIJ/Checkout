@@ -12,7 +12,6 @@
 
 <script>
 import ProductClassifier from "@/classes/ProductClassifier";
-import ProductService from "@/services/ProductService";
 import BarcodeScanner from "@/classes/BarcodeScanner";
 import smartcrop from "smartcrop";
 import { mediaConstraints } from "@/classes/utils";
@@ -24,7 +23,6 @@ export default {
   data() {
     return {
       classifier: new ProductClassifier(),
-      productService: new ProductService(),
       barcodeScanner: new BarcodeScanner(),
       scanMethod: "product"
     };
@@ -44,7 +42,7 @@ export default {
       const predictions = await this.classifier.predict(imageData);
 
       if (predictions.length > 0) {
-        const product = await this.productService.getByEan(predictions[0].ean);
+        const product = await this.$productService.getByEan(predictions[0].ean);
         console.log(product);
         this.$emit("product-classified", product);
       } else {
@@ -58,7 +56,7 @@ export default {
       const barcode = this.barcodeScanner.fromImage(image);
 
       if (barcode) {
-        const product = await this.productService.getByEan(barcode);
+        const product = await this.$productService.getByEan(barcode);
 
         if (!product.isAvailableInPhs) {
           const wantsToHelp = confirm(

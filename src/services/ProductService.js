@@ -1,19 +1,10 @@
 import Product from "@/models/Product";
 import transform from "@/assets/class_names.transform.json";
 import firebase from "firebase";
-import config from "@/assets/.firebase-config";
-
-const app = firebase.initializeApp({
-  apiKey: config.API_KEY,
-  authDomain: config.AUTH_DOMAIN,
-  databaseURL: config.DATABASE_URL,
-  projectId: config.PROJECT_ID,
-  storageBucket: config.STORAGE_BUCKET,
-  messagingSenderId: config.MESSAGING_SENDER_ID
-});
 
 export default class ProductService {
-  constructor() {
+  constructor(config) {
+    const app = firebase.initializeApp(config);
     this.db = app.firestore();
     this.db.settings({ timestampsInSnapshots: true });
     this.products = this.db.collection("products");
@@ -28,9 +19,21 @@ export default class ProductService {
   }
 
   async addToShoppingCart(product, userId) {
+    const cart = this.getCart(userId);
+    const data = cart.data();
+    const products = data.products;
+    products.push(product.ean);
+
+    data.products = products;
+    data.totalAmount += product.price;
+
+    doc.ref.set(data);
+  }
+
+  async getCart(userId) {
     const cart = await this.shoppingCarts
       .where("userId", "==", userId)
-      .where("settled", "==", false)
+      .where("hasPaid", "==", false)
       .get();
 
     if (cart.docs.length < 1) {
@@ -40,13 +43,7 @@ export default class ProductService {
     }
 
     const doc = cart.docs[0];
-    const ref = await doc.ref.get()
-    const data = ref.data()
-    const products = data.products
-    products.push(product.ean)
 
-    doc.ref.set({
-      products: products
-    })
+    return await doc.ref.get();
   }
 }
