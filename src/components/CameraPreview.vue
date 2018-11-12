@@ -86,7 +86,10 @@ export default {
       const image = await this.getImage();
       this.scanMethod = "product";
 
-      this.$router.push({ name: "set-boundingbox", params: { image: image } });
+      this.$router.push({
+        name: "set-boundingbox",
+        params: { image: image, ean: "0".repeat(13) }
+      });
     },
 
     async capture() {

@@ -19,7 +19,7 @@ export default new Router({
       path: '/set-boundingbox',
       name: 'set-boundingbox',
       component: BoundingboxView,
-      props: (route) => ({ image: route.params.image })
+      props: (route) => ({ image: route.params.image, ean: route.params.ean })
     },
     {
       path: '/shopping-cart',

@@ -11,6 +11,7 @@
 
 <script>
 import BoundingBoxSelector from "@/components/BoundingBoxSelector";
+import {generateCombination} from 'gfycat-style-urls'
 import { timeout } from "@/classes/utils";
 import html2canvas from 'html2canvas';
 
@@ -22,6 +23,10 @@ export default {
   props: {
     image: {
       type: HTMLCanvasElement,
+      required: true
+    },
+    ean: {
+      type: String,
       required: true
     }
   },
@@ -41,11 +46,15 @@ export default {
   methods: {
     async snap() {
       this.isSnapping = true
+
       await timeout(500)
-      const outputCanvas = await html2canvas(document.body, { scale: 1 })
+
+      const outputCanvas = await html2canvas(document.body, { scale: 1, width: window.innerWidth, height: window.innerHeight })
+      const uri = outputCanvas.toDataURL('image/jpeg')
+
       this.isSnapping = false
-      console.log(outputCanvas.toDataURL())
-      console.log(this.image.width, this.image.height)
+
+      console.log(uri)
     }
   }
 };
