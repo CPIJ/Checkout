@@ -14,6 +14,7 @@
     "@tensorflow/tfjs": "^0.13.3",
     "dotenv": "^6.1.0",
     "firebase": "^5.5.8",
+    "html2canvas": "^1.0.0-alpha.12",
     "node-loader": "^0.6.0",
     "smartcrop": "^2.0.3",
     "tfjs-yolo-tiny": "^1.0.1",
