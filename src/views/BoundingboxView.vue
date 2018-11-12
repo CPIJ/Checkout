@@ -11,9 +11,9 @@
 
 <script>
 import BoundingBoxSelector from "@/components/BoundingBoxSelector";
-import {generateCombination} from 'gfycat-style-urls'
+import { generateCombination } from "gfycat-style-urls";
 import { timeout } from "@/classes/utils";
-import html2canvas from 'html2canvas';
+import html2canvas from "html2canvas";
 
 export default {
   name: "boundingbox-view",
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       isSnapping: false
-    }
+    };
   },
 
   mounted() {
@@ -45,16 +45,24 @@ export default {
 
   methods: {
     async snap() {
-      this.isSnapping = true
+      this.isSnapping = true;
 
-      await timeout(500)
+      await timeout(500);
 
-      const outputCanvas = await html2canvas(document.body, { scale: 1, width: window.innerWidth, height: window.innerHeight })
-      const uri = outputCanvas.toDataURL('image/jpeg')
+      const outputCanvas = await html2canvas(document.body, {
+        scale: 1,
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+      const uri = outputCanvas.toDataURL("image/jpeg");
 
-      this.isSnapping = false
+      this.isSnapping = false;
 
-      console.log(uri)
+      await this.$imageService.saveImage({
+        ean: this.ean,
+        imageUri: uri,
+        name: generateCombination(2, "", true)
+      });
     }
   }
 };
@@ -92,7 +100,6 @@ export default {
   width: 100%;
   height: 100%;
 }
-
 
 /* @media (min-aspect-ratio: 16/9) {
   #img-bg > img {

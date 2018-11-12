@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import ShopView from './views/ShopView.vue';
 import BoundingboxView from './views/BoundingboxView.vue';
 import ShoppingCartView from './views/ShoppingCartView'
+import TrainedImagesView from './views/TrainedImagesView'
 
 Vue.use(Router);
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/shopping-cart',
       name: 'shopping-cart',
       component: ShoppingCartView
+    },
+    {
+      path: '/trained-images',
+      name: 'trained-images',
+      component: TrainedImagesView
     }
   ],
 });
