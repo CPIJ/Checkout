@@ -28,8 +28,6 @@ Vue.use(ProductServicePlugin, {
   messagingSenderId: process.env.VUE_APP_MESSAGING_SENDER_ID
 });
 
-console.log(process.env)
-
 Vue.use(ImageServicePlugin, { baseUrl: process.env.VUE_APP_IMAGE_API_BASE_URL });
 
 Vue.config.productionTip = false;

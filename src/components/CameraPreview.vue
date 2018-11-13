@@ -44,7 +44,7 @@ export default {
 
       if (predictions.length > 0) {
         const product = await this.$productService.getByEan(predictions[0].ean);
-        console.log(product);
+
         this.$emit("product-classified", product);
       } else {
         alert("Dit product ken ik nog niet, wil je de barcode scannen?");
