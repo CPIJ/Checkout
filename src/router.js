@@ -5,6 +5,7 @@ import BoundingboxView from "./views/BoundingboxView.vue";
 import ShoppingCartView from "./views/ShoppingCartView";
 import TrainedImagesView from "./views/TrainedImagesView";
 import CheckoutView from "./views/CheckoutView";
+import PayView from "./views/PayView";
 
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ export default new Router({
       path: "/checkout",
       name: "checkout",
       component: CheckoutView
+    }, {
+      path: '/pay/:userId',
+      name: 'pay',
+      component: PayView,
+      props: route => ({userId: route.params.userId})
     }
   ]
 });
