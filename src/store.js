@@ -27,6 +27,7 @@ const store = new Vuex.Store({
 
       if (id === null) {
         id = createUuid();
+        Vue.prototype.$productService.createNewCartFor(id)
       }
 
       state.userId = id

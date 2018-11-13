@@ -1,6 +1,7 @@
 import Product from "@/models/Product";
 import transform from "@/assets/class_names.transform.json";
 import firebase from "firebase";
+const createUuid = require('uuid/v4')
 
 export default class ProductService {
   constructor(config) {
@@ -26,7 +27,6 @@ export default class ProductService {
     products.push(product.ean);
 
     data.products = products;
-    data.totalAmount += product.price;
 
     doc.ref.set(data);
   }
@@ -90,5 +90,14 @@ export default class ProductService {
     }
 
     return cart.docs[0];
+  }
+
+  async createNewCartFor(userId) {
+    await this.shoppingCarts.doc().set({
+      id: createUuid(),
+      userId: userId,
+      hasPaid: false,
+      products: [],
+    })
   }
 }
