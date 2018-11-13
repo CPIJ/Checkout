@@ -7,6 +7,7 @@ import TrainedImagesView from "./views/TrainedImagesView";
 import CheckoutView from "./views/CheckoutView";
 import PayView from "./views/PayView";
 import CashRegisterView from "./views/CashRegisterView";
+import HomeView from "./views/HomeView";
 
 Vue.use(Router);
 
@@ -15,7 +16,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
+      path: "/shop",
       name: "shop",
       component: ShopView
     },
@@ -45,10 +46,16 @@ export default new Router({
       name: "pay",
       component: PayView,
       props: route => ({ userId: route.params.userId })
-    }, {
-      path: '/cash-register',
-      name: 'cash-register',
+    },
+    {
+      path: "/cash-register",
+      name: "cash-register",
       component: CashRegisterView
+    },
+    {
+      path: "/",
+      name: 'home',
+      component: HomeView
     }
   ]
 });
