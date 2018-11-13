@@ -42,7 +42,7 @@ export default class ProductService {
     const set = new Set(products.map(p => p.name));
 
     return {
-      id: "ad63b58e-0398-4881-87af-b69369501ecc",
+      id: data.id,
       items: Array.from(set).map(name => ({
         name: name,
         amount: products.filter(p => p.name === name).length,
