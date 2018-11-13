@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { timeout } from '@/classes/utils'
+import { timeout } from "@/classes/utils";
 
 export default {
   props: {
@@ -43,22 +43,27 @@ export default {
   },
   async mounted() {
     this.shoppingCart = await this.$productService.getShoppingCart(this.userId);
-    this.loading = false
+    this.loading = false;
   },
   methods: {
     async pay() {
-      this.paymentInProgess = true
+      this.paymentInProgess = true;
 
-      const payementSuccesful = await this.$productService.payShoppingCart(this.shoppingCart.id)
+      const payementSuccesful = await this.$productService.payShoppingCart(
+        this.shoppingCart.id
+      );
 
       if (payementSuccesful) {
-        alert('Uw betaling is gelukt!')
-        this.$router.push({ name: 'cash-register' })
+        alert("Uw betaling is gelukt!");
+        await this.$productService.createNewCartFor(this.userId);
+        this.$router.push({ name: "cash-register" });
       } else {
-        alert('Erg ging iets fout tijdens de betaling, probeer het opnieuw a.u.b.')
+        alert(
+          "Erg ging iets fout tijdens de betaling, probeer het opnieuw a.u.b."
+        );
       }
 
-      this.paymentInProgess = false
+      this.paymentInProgess = false;
     }
   }
 };
