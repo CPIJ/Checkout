@@ -3,10 +3,9 @@
         <div class="qr-container">
             
             <div class="qr">
-                <p v-if="loading">Loading...</p>
-                <div v-else>
+                <div>
                     <p>Scan deze code bij de kassa om af te rekenen.</p>    
-                    <vue-qr :text="shoppingCartId" :size="vw"></vue-qr>
+                    <vue-qr :text="$store.state.userId" :size="vw"></vue-qr>
                 </div>
             </div>
         </div>
@@ -27,12 +26,6 @@ export default {
       shoppingCartId: null,
       loading: true
     };
-  },
-
-  async mounted() {
-      const cart = await this.$productService.getShoppingCart(this.$store.state.userId)
-      this.shoppingCartId = cart.id
-      this.loading = false
   },
 
   computed: {

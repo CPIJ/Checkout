@@ -6,6 +6,7 @@ import ShoppingCartView from "./views/ShoppingCartView";
 import TrainedImagesView from "./views/TrainedImagesView";
 import CheckoutView from "./views/CheckoutView";
 import PayView from "./views/PayView";
+import CashRegisterView from "./views/CashRegisterView";
 
 Vue.use(Router);
 
@@ -38,11 +39,16 @@ export default new Router({
       path: "/checkout",
       name: "checkout",
       component: CheckoutView
-    }, {
-      path: '/pay/:userId',
-      name: 'pay',
+    },
+    {
+      path: "/pay/:userId",
+      name: "pay",
       component: PayView,
-      props: route => ({userId: route.params.userId})
+      props: route => ({ userId: route.params.userId })
+    }, {
+      path: '/cash-register',
+      name: 'cash-register',
+      component: CashRegisterView
     }
   ]
 });

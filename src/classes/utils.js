@@ -19,3 +19,4 @@ export const mediaConstraints = isMobile()
 
 export const transformLabels = original => original.map(label => (labelMapping[label] ? labelMapping[label] : label));
 export const calculateViewWidth = value => (window.innerWidth * value) / 100
+export const isValidUuid = string => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(string)
