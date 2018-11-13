@@ -1,16 +1,42 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
+const createUuid = require("uuid/v4");
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
-    userId: '0289b91a-0b9f-48c6-820a-b04b65540f51'
+    userId: null
   },
   mutations: {
+    setUserId(state, newId) {
+      state.userId = newId;
+    },
 
-  },
-  actions: {
+    initialize(state) {
+      const localState = localStorage.getItem("app-state");
+      let id = null;
 
+      if (localState) {
+        const obj = JSON.parse(localState);
+
+        if (obj["userId"]) {
+          id = obj.userId;
+        }
+      }
+
+      if (id === null) {
+        id = createUuid();
+      }
+
+      state.userId = id
+    }
   },
+  actions: {}
 });
+
+store.subscribe((mutation, state) => {
+  localStorage.setItem("app-state", JSON.stringify(state));
+});
+
+export default store;
