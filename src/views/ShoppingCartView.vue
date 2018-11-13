@@ -40,9 +40,8 @@
 <script>
 export default {
   async mounted() {
-    this.products = await this.$productService.getShoppingCart(
-      this.$store.state.userId
-    );
+    this.cart = await this.$productService.getShoppingCart(this.$store.state.userId);
+    this.products = this.cart.items
   },
 
   data() {

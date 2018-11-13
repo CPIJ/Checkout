@@ -1,5 +1,3 @@
-const mysql = require("promise-mysql");
-
 export default class ImageService {
   constructor(config) {
     this.baseUrl = config.baseUrl;
