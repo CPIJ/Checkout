@@ -31,6 +31,16 @@ export default class ProductService {
     doc.ref.set(data);
   }
 
+  async saveCart(cartId, products) {
+    const document = await this.getCartById(cartId);
+    const cartRef = await document.ref.get();
+    const cart = cartRef.data();
+
+    cart.products = products
+
+    await document.ref.set(cart)
+  }
+
   async getShoppingCart(userId) {
     const doc = await this.getCart(userId);
     const cart = await doc.ref.get();
@@ -45,6 +55,7 @@ export default class ProductService {
       id: data.id,
       items: Array.from(set).map(name => ({
         name: name,
+        ean: products.find(p => p.name === name).ean,
         amount: products.filter(p => p.name === name).length,
         price: products.find(p => p.name === name).price
       }))

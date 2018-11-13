@@ -47,7 +47,8 @@ export default {
 
   data() {
     return {
-      products: []
+      products: [],
+      onUpdateDatabase: null
     };
   },
 
@@ -58,13 +59,15 @@ export default {
 
     changeValue(product, amount) {
       product.amount += amount;
-      //TODO: Update the database
+      clearTimeout(this.onUpdateDatabase)
+      this.onUpdateDatabase = setTimeout(this.saveState, 1000)
     },
 
     remove(product) {
       if (confirm(`Weet je zeker dat je ${product.name} wil verwijderen?`)) {
         this.products = this.products.filter(p => p.name !== product.name);
-        //TODO: Update database
+        clearTimeout(this.onUpdateDatabase)
+        this.onUpdateDatabase = setTimeout(this.saveState, 1000)
       }
     },
 
@@ -74,6 +77,11 @@ export default {
 
     checkout() {
       this.$router.push({ name: 'checkout' })
+    },
+
+    async saveState() {
+      const updatedList = this.products.flatMap(p => Array(p.amount).fill(p.ean))
+      this.$productService.saveCart(this.cart.id, updatedList)
     }
   },
 
@@ -82,7 +90,7 @@ export default {
       return this.products.reduce(
         (acc, curr) => (acc += curr.price * curr.amount),
         0
-      );
+      ).toFixed(2);
     }
   }
 };
