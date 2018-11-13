@@ -3,9 +3,11 @@
         <div class="qr-container">
             
             <div class="qr">
-                <p>Scan deze code bij de kassa om af te rekenen.</p>    
                 <p v-if="loading">Loading...</p>
-                <vue-qr v-else :text="shoppingCartId" :size="vw"></vue-qr>
+                <div v-else>
+                    <p>Scan deze code bij de kassa om af te rekenen.</p>    
+                    <vue-qr :text="shoppingCartId" :size="vw"></vue-qr>
+                </div>
             </div>
         </div>
     </div>

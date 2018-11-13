@@ -11,11 +11,12 @@ import {
   faTrash,
   faChevronLeft,
   faShoppingCart,
-  faCog
+  faCog,
+  faMoneyBill
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faPlus, faMinus, faTrash, faChevronLeft, faShoppingCart, faCog);
+library.add(faPlus, faMinus, faTrash, faChevronLeft, faShoppingCart, faCog, faMoneyBill);
 Vue.component("fa", FontAwesomeIcon);
 
 Vue.use(ProductServicePlugin, {

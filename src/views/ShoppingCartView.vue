@@ -33,6 +33,7 @@
       </tr>
    </table>
    <button @click="back" class="back"><fa icon="chevron-left"></fa></button>
+   <button @click="checkout" class="checkout"><fa icon="money-bill"></fa></button>
    <br>
 </div>
 </template>
@@ -69,6 +70,10 @@ export default {
 
     back() {
         this.$router.push({ name: 'shop' })
+    },
+
+    checkout() {
+      this.$router.push({ name: 'checkout' })
     }
   },
 
@@ -149,5 +154,13 @@ button.change {
     height: 8vh;
     width: 100%;
     background-color: lightblue;
+}
+
+.checkout {
+    position: fixed;
+    bottom: 8vh;
+    height: 8vh;
+    width: 100%;
+    background-color: steelblue;
 }
 </style>
