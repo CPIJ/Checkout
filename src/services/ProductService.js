@@ -51,6 +51,32 @@ export default class ProductService {
     };
   }
 
+  async payShoppingCart(cartId) {
+    const document = await this.getCartById(cartId);
+    const cartRef = await document.ref.get();
+    const cart = cartRef.data();
+    
+    if (cart.hasPaid) {
+      return false
+    }
+
+    cart.hasPaid = true
+
+    await document.ref.set(cart)
+
+    return true; 
+  }
+
+  async getCartById(cartId) {
+    const cart = await this.shoppingCarts.where("id", "==", cartId).get();
+
+    if (cart.docs.length < 1) {
+      throw new Error("No cart found with id: " + cartId);
+    }
+
+    return cart.docs[0];
+  }
+
   async getCart(userId) {
     const cart = await this.shoppingCarts
       .where("userId", "==", userId)

@@ -1,7 +1,7 @@
 <template>
     <div id="cash-register-view">
         <div id="video">
-            <p>Scan je QR code om af te rekenen.</p>
+            <p>Scan je code om af te rekenen.</p>
             <qrcode-stream  @decode="onDecode"></qrcode-stream>
         </div>
     </div>
