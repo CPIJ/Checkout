@@ -14,7 +14,7 @@ export default class ImageService {
       return await fetch(`${this.baseUrl}/training-images`)
   }
 
-  async detectBarcodes(dataUri) {
+  async decodeBarcodes(dataUri) {
     const response = await fetch(`${this.baseUrl}/decode-barcodes`, {
       method: 'POST',
       body: JSON.stringify({

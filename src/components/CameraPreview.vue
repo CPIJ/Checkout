@@ -13,7 +13,6 @@
 
 <script>
 import ProductClassifier from "@/classes/ProductClassifier";
-import BarcodeScanner from "@/classes/BarcodeScanner";
 import smartcrop from "smartcrop";
 import { mediaConstraints } from "@/classes/utils";
 import { Webcam } from "@/classes/Webcam";
@@ -24,8 +23,7 @@ export default {
   data() {
     return {
       classifier: new ProductClassifier(),
-      barcodeScanner: new BarcodeScanner(),
-      scanMethod: "product"
+      scanMethod: "barcode"
     };
   },
 
@@ -54,7 +52,7 @@ export default {
 
     async scanBarcode() {
       const image = await this.getImage();
-      const barcode = this.barcodeScanner.fromImage(image);
+      const barcode = await this.$barcodeScanner.fromImage(image);
 
       if (barcode) {
         const product = await this.$productService.getByEan(barcode);
