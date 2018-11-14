@@ -1,7 +1,7 @@
 import Product from "@/models/Product";
 import transform from "@/assets/class_names.transform.json";
 import firebase from "firebase";
-const createUuid = require('uuid/v4')
+const createUuid = require("uuid/v4");
 
 export default class ProductService {
   constructor(config) {
@@ -15,6 +15,10 @@ export default class ProductService {
   async getByEan(eanCode) {
     const document = await this.products.doc(eanCode).get();
     const data = document.data();
+
+    if (!data) {
+      return undefined;
+    }
 
     return new Product({ ean: eanCode, ...data });
   }
@@ -36,9 +40,9 @@ export default class ProductService {
     const cartRef = await document.ref.get();
     const cart = cartRef.data();
 
-    cart.products = products
+    cart.products = products;
 
-    await document.ref.set(cart)
+    await document.ref.set(cart);
   }
 
   async getShoppingCart(userId) {
@@ -66,16 +70,16 @@ export default class ProductService {
     const document = await this.getCartById(cartId);
     const cartRef = await document.ref.get();
     const cart = cartRef.data();
-    
+
     if (cart.hasPaid) {
-      return false
+      return false;
     }
 
-    cart.hasPaid = true
+    cart.hasPaid = true;
 
-    await document.ref.set(cart)
+    await document.ref.set(cart);
 
-    return true; 
+    return true;
   }
 
   async getCartById(cartId) {
@@ -108,7 +112,7 @@ export default class ProductService {
       id: createUuid(),
       userId: userId,
       hasPaid: false,
-      products: [],
-    })
+      products: []
+    });
   }
 }

@@ -47,7 +47,7 @@ export default {
       } else {
         alert("Dit product ken ik nog niet, wil je de barcode scannen?");
         this.scanMethod = "barcode";
-        this.scanBarcode()
+        this.scanBarcode();
       }
     },
 
@@ -57,6 +57,12 @@ export default {
 
       if (barcode) {
         const product = await this.$productService.getByEan(barcode);
+
+        if (!product) {
+          alert("Ongeldige barcode, scan iets anders.");
+          this.scanMethod = "product";
+          return;
+        }
 
         if (!product.isAvailableInPhs) {
           const wantsToHelp = confirm(
