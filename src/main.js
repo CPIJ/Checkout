@@ -5,7 +5,7 @@ import store from "./store";
 import ProductServicePlugin from "@/plugins/ProductServicePlugin";
 import ImageServicePlugin from "@/plugins/ImageServicePlugin";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import BarcodeScannerPlugin from "@/plugins/BarcodeScannerPlugin"
+import BarcodeScannerPlugin from "@/plugins/BarcodeScannerPlugin";
 import {
   faPlus,
   faMinus,
@@ -31,7 +31,7 @@ Vue.use(ProductServicePlugin, {
 
 Vue.use(ImageServicePlugin, { baseUrl: process.env.VUE_APP_IMAGE_API_BASE_URL });
 
-Vue.use(BarcodeScannerPlugin, Vue.prototype.$imageService)
+Vue.use(BarcodeScannerPlugin, "video");
 
 Vue.config.productionTip = false;
 
@@ -39,7 +39,7 @@ new Vue({
   router,
   store,
   beforeCreate() {
-    this.$store.commit('initialize')
+    this.$store.commit("initialize");
   },
   render: h => h(App)
 }).$mount("#app");

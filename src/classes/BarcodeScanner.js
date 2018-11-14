@@ -1,20 +1,19 @@
+import { BrowserBarcodeReader } from "@zxing/library";
+
 export default class BarcodeScanner {
-  constructor(imageService) {
-    this.imageService = imageService;
+  constructor(config) {
+    this.videoElementName = config.videoElementName;
+    this.reader = new BrowserBarcodeReader();
   }
 
-  async fromImage(image) {
-    const uri = image.toDataURL('image/jpeg')
-    const barcodes = await this.imageService.decodeBarcodes(uri)
+  async scan() {
+    const deviceId = await this.getDeviceId();
+    const result = await this.reader.decodeFromInputVideoDevice(deviceId, this.videoElementName);
+    return result.text;
+  }
 
-    for (let barcode of barcodes) {
-      alert(barcode)
-    }
-
-    if (barcodes.lenght < 1) {
-      alert('Nope')
-    }
-
-    return "0".repeat(13);
+  async getDeviceId() {
+    const devices = await this.reader.getVideoInputDevices();
+    return devices[0].deviceId;
   }
 }

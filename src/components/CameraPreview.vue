@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       classifier: new ProductClassifier(),
-      scanMethod: "barcode"
+      scanMethod: "product"
     };
   },
 
@@ -47,12 +47,13 @@ export default {
       } else {
         alert("Dit product ken ik nog niet, wil je de barcode scannen?");
         this.scanMethod = "barcode";
+        this.scanBarcode()
       }
     },
 
     async scanBarcode() {
       const image = await this.getImage();
-      const barcode = await this.$barcodeScanner.fromImage(image);
+      const barcode = await this.$barcodeScanner.scan();
 
       if (barcode) {
         const product = await this.$productService.getByEan(barcode);
@@ -170,7 +171,7 @@ export default {
 }
 
 #capture.barcode-active {
-  background-color: steelblue;
+  display: none;
 }
 
 #capture.new-active {
