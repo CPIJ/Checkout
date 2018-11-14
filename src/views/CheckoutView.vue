@@ -21,6 +21,22 @@ export default {
     VueQr
   },
 
+  mounted() {
+    this.$mqtt.subscribe("sw-checkout/cash-register");
+  },
+
+  mqtt: {
+    "sw-checkout/cash-register": function(val) {
+      const message = new TextDecoder("utf-8").decode(val);
+      const parts = message.split(':')
+
+      if (parts[0] == 'PAYMENT_SUCESFULL' && parts[1] == this.$store.state.userId) {
+        alert('Bedankt voor uw betaling!')
+        this.$router.push('/')
+      }
+    }
+  },
+
   data() {
     return {
       shoppingCartId: null,
@@ -43,9 +59,9 @@ export default {
 }
 
 .qr-container p {
-    text-align: center;
-    margin-bottom: 7vw;
-    font-size: 1.2em;
+  text-align: center;
+  margin-bottom: 7vw;
+  font-size: 1.2em;
 }
 
 .qr {

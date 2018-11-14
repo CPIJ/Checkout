@@ -16,6 +16,7 @@ import {
   faMoneyBill
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import VueMqtt from 'vue-mqtt';
 
 library.add(faPlus, faMinus, faTrash, faChevronLeft, faShoppingCart, faCog, faMoneyBill);
 Vue.component("fa", FontAwesomeIcon);
@@ -32,6 +33,7 @@ Vue.use(ProductServicePlugin, {
 Vue.use(ImageServicePlugin, { baseUrl: process.env.VUE_APP_IMAGE_API_BASE_URL });
 
 Vue.use(BarcodeScannerPlugin, "video");
+Vue.use(VueMqtt, 'ws://iot.eclipse.org/ws');
 
 Vue.config.productionTip = false;
 

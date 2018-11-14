@@ -43,19 +43,19 @@ export default {
   },
   async mounted() {
     this.shoppingCart = await this.$productService.getShoppingCart(this.userId);
+    this.$mqtt.subscribe("sw-checkout/cash-register");
     this.loading = false;
   },
   methods: {
     async pay() {
       this.paymentInProgess = true;
 
-      const payementSuccesful = await this.$productService.payShoppingCart(
-        this.shoppingCart.id
-      );
+      const payementSuccesful = true;//await this.$productService.payShoppingCart(this.shoppingCart.id);
 
       if (payementSuccesful) {
         alert("Uw betaling is gelukt!");
-        await this.$productService.createNewCartFor(this.userId);
+        // await this.$productService.createNewCartFor(this.userId);
+        this.$mqtt.publish("sw-checkout/cash-register", `PAYMENT_SUCESFULL:${this.userId}`);
         this.$router.push({ name: "cash-register" });
       } else {
         alert(
