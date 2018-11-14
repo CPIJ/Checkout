@@ -5,7 +5,8 @@
           Your browser does not support the video tag.
       </video>
       </div>
-      <button :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
+      <button v-if="scanMethod !== 'barcode'" :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
+      <button v-if="scanMethod === 'barcode'" @click="reload" class="reset circle" id="capture">Cancel</button>
       <button @click="$router.push('/')"  class="reset circle" id="settings"><fa icon="cog"></fa></button>
       <button @click="$router.push('/shopping-cart')"  class="reset circle" id="shopping-cart"><fa icon="shopping-cart"></fa></button>
     </section>
@@ -35,6 +36,10 @@ export default {
   },
 
   methods: {
+    reload() {
+      console.log('aa')
+      this.$router.push('/')
+    },
     async scanProduct() {
       const image = await this.getImage(416, 416);
       const imageData = Webcam.capture(image);
