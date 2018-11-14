@@ -2,6 +2,7 @@
     <div id="home-view">
       <div id="buttons">
           <router-link tag="button" to="/shop">Winkel</router-link>
+          <router-link tag="button" to="/shopping-cart">Winkelwagem</router-link>
           <router-link tag="button" to="/checkout">Afrekenen</router-link>
           <router-link tag="button" to="/">Addons</router-link>
           <router-link v-if="admin" tag="button" to="/cash-register">Kassa</router-link>
