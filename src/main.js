@@ -33,7 +33,7 @@ Vue.use(ProductServicePlugin, {
 Vue.use(ImageServicePlugin, { baseUrl: process.env.VUE_APP_IMAGE_API_BASE_URL });
 
 Vue.use(BarcodeScannerPlugin, "video");
-Vue.use(VueMqtt, 'ws://iot.eclipse.org/ws');
+Vue.use(VueMqtt, 'wss://iot.eclipse.org/ws');
 
 Vue.config.productionTip = false;
 
