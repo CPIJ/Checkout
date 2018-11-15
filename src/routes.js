@@ -12,49 +12,76 @@ const routes = [
   {
     path: "/shop",
     name: "shop",
-    component: ShopView
+    component: ShopView,
+    meta: {
+      title: 'Checkout | Winkel'
+    }
   },
   {
     path: "/set-boundingbox",
     name: "set-boundingbox",
     component: BoundingboxView,
-    props: route => ({ image: route.params.image, ean: route.params.ean })
+    props: route => ({ image: route.params.image, ean: route.params.ean }),
+    meta: {
+      title: 'Checkout | Selecteer product'
+    }
   },
   {
     path: "/shopping-cart",
     name: "shopping-cart",
-    component: ShoppingCartView
+    component: ShoppingCartView,
+    meta: {
+      title: 'Checkout | Winkelwagen'
+    }
   },
   {
     path: "/trained-images",
     name: "trained-images",
-    component: TrainedImagesView
+    component: TrainedImagesView,
+    meta: {
+      title: 'Checkout | Training afbeeldingen'
+    }
   },
   {
     path: "/checkout",
     name: "checkout",
-    component: CheckoutView
+    component: CheckoutView,
+    meta: {
+      title: 'Checkout | Afrekenen'
+    }
   },
   {
     path: "/pay/:userId",
     name: "pay",
     component: PayView,
-    props: route => ({ userId: route.params.userId })
+    props: route => ({ userId: route.params.userId }),
+    meta: {
+      title: 'Checkout | Betaal'
+    }
   },
   {
     path: "/cash-register",
     name: "cash-register",
-    component: CashRegisterView
+    component: CashRegisterView,
+    meta: {
+      title: 'Checkout | Kassa'
+    }
   },
   {
     path: "/home",
     name: "home",
-    component: HomeView
+    component: HomeView,
+    meta: {
+      title: 'Checkout | Scan je boodschappen gemakkelijk en overal!'
+    }
   },
   {
     path: "/",
     name: "launch",
-    component: LaunchView
+    component: LaunchView,
+    meta: {
+      title: 'Checkout'
+    }
   }
 ];
 

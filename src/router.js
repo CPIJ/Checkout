@@ -4,8 +4,15 @@ import routes from "./routes";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: routes
 });
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  next(); 
+});
+
+export default router;
