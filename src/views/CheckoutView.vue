@@ -1,15 +1,19 @@
 <template>
-    <div id="checkout-view">
-        <div class="qr-container">
-            
-            <div class="qr">
-                <div>
-                    <p>Scan deze code bij de kassa om af te rekenen.</p>    
-                    <vue-qr :text="$store.state.userId" :size="vw"></vue-qr>
-                </div>
-            </div>
-        </div>
-    </div>
+  <v-content>
+    <v-container fluid fill-height>
+      <v-toolbar color="primary" dark app>
+        <v-toolbar-title>Afrekenen</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn @click="$router.go(-1)" flat><v-icon>arrow_back</v-icon></v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <v-layout align-center justify-center column >
+        <p style="width: 60vw; text-align: center;" class="subheading">Scan deze code bij de kassa om af te rekenen.</p>    
+        <vue-qr :text="$store.state.userId" :size="vw"></vue-qr>
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -51,22 +55,6 @@ export default {
 };
 </script>
 
-<style>
-#checkout-view {
-  width: 100vw;
-  height: 100vh;
-}
+<style scoped>
 
-.qr-container p {
-  text-align: center;
-  margin-bottom: 7vw;
-  font-size: 1.2em;
-}
-
-.qr {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 </style>
