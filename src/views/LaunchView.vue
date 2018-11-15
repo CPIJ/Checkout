@@ -5,7 +5,12 @@
 </template>
 
 <script>
-export default {};
+export default {
+    async mounted() {
+        await this.$productClassifier.init()
+        this.$router.push({ name: 'home' })
+    }
+};
 </script>
 
 <style>

@@ -6,17 +6,10 @@ import ProductServicePlugin from "@/plugins/ProductServicePlugin";
 import ImageServicePlugin from "@/plugins/ImageServicePlugin";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import BarcodeScannerPlugin from "@/plugins/BarcodeScannerPlugin";
-import {
-  faPlus,
-  faMinus,
-  faTrash,
-  faChevronLeft,
-  faShoppingCart,
-  faCog,
-  faMoneyBill
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMinus, faTrash, faChevronLeft, faShoppingCart, faCog, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import VueMqtt from 'vue-mqtt';
+import ProductClassifierPlugin from '@/plugins/ProductClassifierPlugin'
 
 library.add(faPlus, faMinus, faTrash, faChevronLeft, faShoppingCart, faCog, faMoneyBill);
 Vue.component("fa", FontAwesomeIcon);
@@ -31,9 +24,9 @@ Vue.use(ProductServicePlugin, {
 });
 
 Vue.use(ImageServicePlugin, { baseUrl: process.env.VUE_APP_IMAGE_API_BASE_URL });
-
 Vue.use(BarcodeScannerPlugin, "video");
 Vue.use(VueMqtt, 'wss://iot.eclipse.org/ws');
+Vue.use(ProductClassifierPlugin)
 
 Vue.config.productionTip = false;
 

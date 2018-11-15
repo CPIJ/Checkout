@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import ProductClassifier from "@/classes/ProductClassifier";
 import smartcrop from "smartcrop";
 import { mediaConstraints } from "@/classes/utils";
 import { Webcam } from "@/classes/Webcam";
@@ -23,13 +22,11 @@ export default {
 
   data() {
     return {
-      classifier: new ProductClassifier(),
       scanMethod: "product"
     };
   },
 
   async mounted() {
-    await this.classifier.init();
     const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
     this.$refs.video.srcObject = stream;
     this.$refs.video.play();
@@ -37,13 +34,12 @@ export default {
 
   methods: {
     reload() {
-      console.log('aa')
       this.$router.push('/')
     },
     async scanProduct() {
       const image = await this.getImage(416, 416);
       const imageData = Webcam.capture(image);
-      const predictions = await this.classifier.predict(imageData);
+      const predictions = await this.$productClassifier.predict(imageData);
 
       if (predictions.length > 0) {
         const product = await this.$productService.getByEan(predictions[0].ean);
