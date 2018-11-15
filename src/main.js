@@ -43,10 +43,13 @@ Vue.use(ProductServicePlugin, {
 });
 
 Vue.use(ImageServicePlugin, { baseUrl: process.env.VUE_APP_IMAGE_API_BASE_URL });
-Vue.use(BarcodeScannerPlugin, "video");
 Vue.use(VueMqtt, "wss://iot.eclipse.org/ws");
 Vue.use(ProductClassifierPlugin);
 Vue.use(VideoStreamPlugin);
+Vue.use(BarcodeScannerPlugin, {
+  videoElementName: "video",
+  stream: Vue.prototype.$videoStream
+});
 Vue.use({
   install(Vue, options) {
     Vue.prototype.$dependenciesLoaded = () =>
