@@ -8,10 +8,13 @@ export default class BarcodeScanner {
   }
 
   async scan() {
-    this.stream.currentStream.getTracks().forEach(track => {
-      console.log(track)
-    })
     const deviceId = await this.getDeviceId();
+
+    this.stream.currentStream.getTracks().forEach(track => {
+      if (track.getCapabilities().deviceId !== deviceId) {
+        track.stop()
+      }
+    })
     const result = await this.reader.decodeFromInputVideoDevice(deviceId, this.videoElementName);
     return result.text;
   }
