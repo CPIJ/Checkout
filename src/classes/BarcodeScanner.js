@@ -21,7 +21,6 @@ export default class BarcodeScanner {
 
   async getDeviceId() {
     const devices = await this.reader.getVideoInputDevices();
-    devices.forEach(d => console.log(d))
     return devices[0].deviceId;
   }
 }
