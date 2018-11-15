@@ -100,14 +100,22 @@ export default class ProductService {
 
     if (cart.docs.length < 1) {
       throw new Error("No cart found for user: " + userId);
-    } else if (cart.docs.length > 1) {
-      throw new Error("Multiple carts are not allowed.");
     }
 
     return cart.docs[0];
   }
 
   async createNewCartFor(userId) {
+    const cart = await this.shoppingCarts
+      .where("userId", "==", userId)
+      .where("hasPaid", "==", false)
+      .get();
+
+    if (!cart.empty) {
+      console.warn(`User (${userId}) aleady has an active cart. Not creating a new one.`);
+      return;
+    }
+
     await this.shoppingCarts.doc().set({
       id: createUuid(),
       userId: userId,
