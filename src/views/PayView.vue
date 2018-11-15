@@ -26,6 +26,7 @@
 
 <script>
 import { timeout } from "@/classes/utils";
+import Message from '@/classes/Message'
 
 export default {
   props: {
@@ -55,7 +56,7 @@ export default {
       if (payementSuccesful) {
         alert("Uw betaling is gelukt!");
         await this.$productService.createNewCartFor(this.userId);
-        this.$mqtt.publish("sw-checkout/cash-register", `PAYMENT_SUCESFULL:${this.userId}`);
+        this.$mqtt.publish("sw-checkout/cash-register", new Message("PAYMENT_SUCESSFUL", this.userId).toString());
         this.$router.push({ name: "cash-register" });
       } else {
         alert(

@@ -14,7 +14,8 @@
 
 <script>
 import VueQr from "vue-qr";
-import { calculateViewWidth } from "@/classes/utils";
+import { calculateViewWidth, decode } from "@/classes/utils";
+import Message from '@/classes/Message'
 
 export default {
   components: {
@@ -26,11 +27,10 @@ export default {
   },
 
   mqtt: {
-    "sw-checkout/cash-register": function(val) {
-      const message = new TextDecoder("utf-8").decode(val);
-      const parts = message.split(':')
+    "sw-checkout/cash-register": function(bytes) {
+      const message = Message.parse(decode(bytes))
 
-      if (parts[0] == 'PAYMENT_SUCESFULL' && parts[1] == this.$store.state.userId) {
+      if (message.subject === 'PAYMENT_SUCESSFUL' && message.body === this.$store.state.userId) {
         alert('Bedankt voor uw betaling!')
         this.$router.push('/')
       }
@@ -39,7 +39,6 @@ export default {
 
   data() {
     return {
-      shoppingCartId: null,
       loading: true
     };
   },
