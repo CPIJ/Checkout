@@ -5,7 +5,7 @@
         <v-toolbar-title>Winkelwagen</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn to="/shop" flat><v-icon>arrow_back</v-icon></v-btn>
+          <v-btn @click="$router.go(-1)" flat><v-icon>arrow_back</v-icon></v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-data-table :loading="loading" class="elevation-1" hide-actions
@@ -29,7 +29,7 @@
               </v-edit-dialog>
             </td>
             <td>€{{calculatePrice(props.item)}}</td>
-            <td><v-icon style="text-align: center" @click="remove(props.item)">delete</v-icon></td>
+            <td class="text-sm-left"><v-icon @click="remove(props.item)">delete</v-icon></td>
           </tr>
         </template>
         <template v-if="!loading" slot="footer">

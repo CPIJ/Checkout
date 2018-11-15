@@ -10,7 +10,7 @@
       </v-toolbar>
       <v-layout align-center justify-center column >
         <p style="width: 60vw; text-align: center;" class="subheading">Scan deze code bij de kassa om af te rekenen.</p>    
-        <vue-qr :text="$store.state.userId" :size="vw"></vue-qr>
+        <vue-qr id="qr" :text="$store.state.userId" :size="vw"></vue-qr>
       </v-layout>
     </v-container>
   </v-content>
@@ -56,5 +56,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
