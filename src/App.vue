@@ -1,11 +1,8 @@
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+    <v-app>
+      <router-view/>
+    </v-app>
 </template>
 
 <style>
-* {
-  font-family: sans-serif
-}
 </style>

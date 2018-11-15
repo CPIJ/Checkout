@@ -1,14 +1,21 @@
 <template>
-    <div id="home-view">
-      <div id="buttons">
-          <router-link tag="button" to="/shop">Winkel</router-link>
-          <router-link tag="button" to="/shopping-cart">Winkelwagen</router-link>
-          <router-link tag="button" to="/checkout">Afrekenen</router-link>
-          <router-link tag="button" to="/">Addons</router-link>
-          <router-link v-if="admin" tag="button" to="/cash-register">Kassa</router-link>
-          <router-link v-if="admin" tag="button" to="/trained-images">Afbeeldingen</router-link>
-        </div>
-    </div>
+  <v-content>
+    <v-container fluid>
+      <v-toolbar color="primary" dark app>
+        <v-toolbar-side-icon><v-icon>home</v-icon></v-toolbar-side-icon>
+        <v-toolbar-title>Checkout</v-toolbar-title>
+      </v-toolbar>
+      <v-layout class="btn-container" align-center column>
+        <v-btn block to="/shop" color="primary">Winkel</v-btn>
+        <v-btn block to="/shopping-cart" color="primary">Winkelwagen</v-btn>
+        <v-btn block to="/checkout" color="primary">Afrekenen</v-btn>
+        <v-btn block to="/" color="primary">Addons</v-btn>
+        <v-btn block to="/cash-register" v-if="admin" color="secondary">Kassa</v-btn>
+        <v-btn block to="/trained-images" v-if="admin" color="secondary">Afbeeldingen</v-btn>
+        <img style="position: fixed; bottom: 2%; width: 35vw;" src="@/assets/checkout-logo.svg" alt="">
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -33,31 +40,5 @@ export default {
 </script>
 
 <style>
-#home-view {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
 
-#home-view button {
-  width: 50vw;
-  font-size: 1em;
-  margin: 0.3em;
-  padding: 0.5em;
-}
-
-#buttons {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-button {
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  overflow: visible;
-}
 </style>
