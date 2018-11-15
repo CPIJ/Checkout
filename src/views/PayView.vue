@@ -54,9 +54,9 @@ export default {
       const payementSuccesful = await this.$productService.payShoppingCart(this.shoppingCart.id);
 
       if (payementSuccesful) {
-        alert("Uw betaling is gelukt!");
         await this.$productService.createNewCartFor(this.userId);
         this.$mqtt.publish("sw-checkout/cash-register", new Message("PAYMENT_SUCESSFUL", this.userId).toString());
+        alert("Uw betaling is gelukt!");
         this.$router.push({ name: "cash-register" });
       } else {
         alert(

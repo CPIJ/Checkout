@@ -7,7 +7,7 @@
       </div>
       <button v-if="scanMethod !== 'barcode'" :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
       <button v-if="scanMethod === 'barcode'" @click="reload" class="reset circle" id="capture">Cancel</button>
-      <button @click="$router.push('/')"  class="reset circle" id="settings"><fa icon="cog"></fa></button>
+      <button @click="$router.push({ name: 'home' })"  class="reset circle" id="settings"><fa icon="arrow-left"></fa></button>
       <button @click="$router.push('/shopping-cart')"  class="reset circle" id="shopping-cart"><fa icon="shopping-cart"></fa></button>
     </section>
 </template>
@@ -27,8 +27,7 @@ export default {
   },
 
   async mounted() {
-    const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
-    this.$refs.video.srcObject = stream;
+    this.$refs.video.srcObject = this.$videoStream.currentStream;
     this.$refs.video.play();
   },
 

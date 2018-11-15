@@ -6,6 +6,7 @@ import labels from "@/assets/class_names.json";
 export default class ProductClassifier {
   async init() {
     this.model = await downloadModel();
+    this.loaded = true
   }
 
   async predict(image) {

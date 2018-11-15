@@ -32,7 +32,7 @@ export default {
 
       if (message.subject === 'PAYMENT_SUCESSFUL' && message.body === this.$store.state.userId) {
         alert('Bedankt voor uw betaling!')
-        this.$router.push('/')
+        this.$router.push({ name: 'home' })
       }
     }
   },

@@ -26,6 +26,12 @@ export default {
     ProductThumbnail
   },
 
+  mounted() {
+    if (!this.$dependenciesLoaded()) {
+      this.$router.push('/')
+    }
+  },
+
   data() {
     return {
       productThumbnails: []

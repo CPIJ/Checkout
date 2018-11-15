@@ -6,10 +6,11 @@
 
 <script>
 export default {
-    async mounted() {
-        await this.$productClassifier.init()
-        this.$router.push({ name: 'home' })
-    }
+  async mounted() {
+    await this.$productClassifier.init();
+    await this.$videoStream.init();
+    this.$router.push({ name: "home" });
+  }
 };
 </script>
 
