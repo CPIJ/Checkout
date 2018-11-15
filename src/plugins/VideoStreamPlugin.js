@@ -5,7 +5,7 @@ const VideoStreamPlugin = {
     Vue.prototype.$videoStream = {
       async init() {
         this._currentStream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
-        console.log(this.currentStream)
+        this.deviceId = this.currentStream.getVideoTracks()[0].getCapabilities().deviceId
         this.loaded = true;
       },
 

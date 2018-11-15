@@ -9,23 +9,18 @@ export default class BarcodeScanner {
   }
 
   async scan() {
-    const deviceId = await this.getDeviceId();
-
     if (isMobile()) {
       this.stream.currentStream.getTracks().forEach(track => {
-        console.log(track)
-        if (track.getCapabilities().deviceId !== deviceId) {
+        if (track.getCapabilities().deviceId !== this.stream.deviceId) {
           track.stop();
         }
       });
     }
 
-    const result = await this.reader.decodeFromInputVideoDevice(deviceId, this.videoElementName);
+    const result = await this.reader.decodeFromInputVideoDevice(
+      this.stream.deviceId,
+      this.videoElementName
+    );
     return result.text;
-  }
-
-  async getDeviceId() {
-    const devices = await this.reader.getVideoInputDevices();
-    return devices[1].deviceId;
   }
 }
