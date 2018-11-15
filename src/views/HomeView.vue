@@ -12,6 +12,7 @@
         <v-btn block to="/" color="primary">Addons</v-btn>
         <v-btn block to="/cash-register" v-if="admin" color="secondary">Kassa</v-btn>
         <v-btn block to="/trained-images" v-if="admin" color="secondary">Afbeeldingen</v-btn>
+        <img style="position: fixed; bottom: 2%; width: 35vw;" src="@/assets/checkout-logo.svg" alt="">
       </v-layout>
     </v-container>
   </v-content>
