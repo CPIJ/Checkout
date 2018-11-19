@@ -1,40 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 250.05 66.99">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: none;
-      }
-
-      .cls-2 {
-        clip-path: url(#clip-path);
-      }
-
-      .cls-3 {
-        fill: #448aff;
-      }
-
-      .cls-4, .cls-5 {
-        font-size: 49px;
-        font-family: Montserrat-Medium, Montserrat;
-        font-weight: 500;
-      }
-
-      .cls-5 {
-        fill: #fff;
-      }
-    </style>
-    <clipPath id="clip-path">
-      <rect class="cls-1" x="1.05" width="249" height="45"/>
-    </clipPath>
-  </defs>
-  <title>Asset 7</title>
-  <g id="Layer_2" data-name="Layer 2">
-    <g id="Layer_1-2" data-name="Layer 1">
-      <g class="cls-2">
-        <rect class="cls-3" x="159.2" width="90.86" height="45"/>
-        <text class="cls-4" transform="translate(0 44.78)">Check</text>
-        <text class="cls-5" transform="translate(163 52.78)">out</text>
-      </g>
-    </g>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 250.1 45" style="enable-background:new 0 0 250.1 45;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:#448AFF;}
+	.st2{enable-background:new    ;}
+	.st3{fill:#FFFFFF;}
+</style>
+<title>checkout_logo_expanded</title>
+<g id="Layer_1-2">
+	<g>
+		<defs>
+			<rect id="SVGID_1_" x="1" width="249" height="45"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<g class="st0">
+			<g>
+				<g>
+					<rect x="159.2" class="st1" width="90.9" height="45"/>
+				</g>
+				<g class="st2">
+					<path d="M19.7,16.1c-6.5,0-11.5,5-11.5,11.4c0,6.4,5,11.4,11.5,11.4c3.3,0,6.8-1.5,9.3-4l3.9,4.3c-3.5,3.6-8.6,5.9-13.5,5.9
+						c-10.1,0-17.9-7.6-17.9-17.5c0-9.8,7.9-17.3,18.1-17.3c4.9,0,9.9,2.1,13.2,5.5l-3.8,4.8C26.6,17.8,23.1,16.1,19.7,16.1z"/>
+					<path d="M63.8,28.4v16.4h-6.4V30.3c0-3.7-2.2-5.9-5.8-5.9c-4.3,0-6.9,3.2-6.9,7.5v12.9h-6.4V8.4h6.4v15.1
+						c1.9-3.6,5.1-5.2,9.5-5.2C60.2,18.3,63.8,22.2,63.8,28.4z"/>
+					<path d="M94.5,33.9H75.1c0.8,3.7,3.7,6,7.5,6c2.7,0,5.2-1,7.1-2.9l3.4,3.6c-2.6,2.8-6.4,4.5-11,4.5c-8.1,0-13.5-5.4-13.5-13.3
+						c0-8,5.5-13.4,13.3-13.4C91.1,18.4,95.1,24.4,94.5,33.9z M88.7,29.6c-0.1-3.9-2.7-6.3-6.7-6.3c-3.8,0-6.4,2.4-7,6.3H88.7z"/>
+					<path d="M111.2,24c-4.2,0-7.2,3.1-7.2,7.7c0,4.7,2.9,7.8,7.2,7.8c3,0,5.5-1,7.1-3.1l4,3.3c-2.3,3.3-6.2,5.3-11.4,5.3
+						c-7.8,0-13.2-5.4-13.2-13.3c0-8,5.4-13.4,13.3-13.4c4.8,0,8.6,1.8,11,4.8l-3.9,3.7C116.4,25,114.1,24,111.2,24z"/>
+					<path d="M138.3,33.3l-4,4.2v7.3h-6.4V8.4h6.4v21.1L145,18.6h7.3l-9.7,10.1L153,44.8h-7.6L138.3,33.3z"/>
+				</g>
+				<g class="st2">
+					<path class="st3" d="M192.2,39.6c0,8-5.6,13.4-13.8,13.4c-8.3,0-13.9-5.4-13.9-13.4c0-7.9,5.6-13.3,13.9-13.3
+						C186.6,26.4,192.2,31.7,192.2,39.6z M171,39.7c0,4.7,3,7.9,7.4,7.9c4.3,0,7.3-3.2,7.3-7.9c0-4.7-3-7.9-7.3-7.9
+						C174,31.8,171,35,171,39.7z"/>
+					<path class="st3" d="M221.9,26.6v26.2h-6.4v-4.9c-1.8,3.5-4.9,5.1-9.1,5.1c-5.9,0-9.5-3.9-9.5-10V26.6h6.4v14.6
+						c0,3.7,2.1,5.9,5.6,5.9c4.1,0,6.6-3.3,6.6-7.5V26.6H221.9z"/>
+					<path class="st3" d="M245.2,51.2c-2,1.2-4.3,1.9-6.6,1.9c-4.3,0-7.7-2.5-7.7-7.8V32.3h-3.7l0-4.7h3.7v-7.2h6.3v7.2h7.5v4.7
+						h-7.5v11.8c0,2.5,1,3.3,2.7,3.3c1.1,0,2.3-0.4,3.7-1.1L245.2,51.2z"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
 </svg>
