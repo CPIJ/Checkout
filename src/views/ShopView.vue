@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       productThumbnails: [],
-      cancel: true
+      cancel: false
     };
   },
 
