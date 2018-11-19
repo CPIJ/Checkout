@@ -15,8 +15,6 @@
     </div>
       <button v-if="scanMethod !== 'barcode'" :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
       <button v-if="scanMethod === 'barcode'" @click="reload" class="reset circle" id="capture">Cancel</button>
-      <button @click="$router.push({ name: 'home' })"  class="reset circle" id="settings"><fa icon="arrow-left"></fa></button>
-      <button @click="$router.push('/shopping-cart')"  class="reset circle" id="shopping-cart"><fa icon="shopping-cart"></fa></button>
     </section>
 </template>
 
@@ -206,7 +204,7 @@ export default {
 }
 
 #capture.product-active {
-  background-color: salmon;
+  background-color: #EF5350;
 }
 
 #capture.barcode-active {
@@ -220,11 +218,11 @@ export default {
 #capture {
   bottom: 2.5%;
   left: calc(50vw - (18vw / 2));
-  border: 4px solid lightgrey;
+  border: 4px solid #f5f5f5;
 }
 
 #capture:active {
-  background: red;
+  background: #D32F2F;
   border: 4px solid white;
 }
 
