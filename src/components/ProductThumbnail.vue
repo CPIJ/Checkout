@@ -19,6 +19,10 @@ export default {
       type: Number,
       required: false,
       default: 5000
+    },
+    cancel: {
+      type: Boolean,
+      required: true
     }
   },
 
@@ -29,8 +33,12 @@ export default {
   methods: {
     async startTimer() {
       if (this.timeout != -1) {
+        
         await timeout(this.timeout);
-        this.$emit("timeout-elapsed", this.product);
+
+        if (!this.cancel) {
+          this.$emit("timeout-elapsed", this.product);
+        }
       }
     }
   }
@@ -43,7 +51,7 @@ export default {
   height: 100%;
   padding-top: 2vh;
   text-align: center;
-    float: left;
+  float: left;
 }
 
 .product-thumbnail img {
