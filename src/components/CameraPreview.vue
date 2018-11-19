@@ -13,8 +13,8 @@
           indeterminate
         />
     </div>
-      <button v-if="scanMethod !== 'barcode'" :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
-      <button v-if="scanMethod === 'barcode'" @click="reload" class="reset circle" id="capture">Cancel</button>
+    <v-btn v-if="scanMethod !== 'barcode'"   @click="capture" fab fixed id="capture"></v-btn>
+    <v-btn v-if="scanMethod === 'barcode'" @click="reload" style="background-color: rgba(255,255,255,0.7); font-size: 0.6em; font-weight: bold;"  fab fixed id="capture">Cancel</v-btn>
     </section>
 </template>
 
@@ -216,31 +216,19 @@ export default {
 }
 
 #capture {
+  position: absolute;
   bottom: 2.5%;
-  left: calc(50vw - (18vw / 2));
+  left: 50%;
   border: 4px solid #f5f5f5;
+  background-color: #EF5350;
+  transform: translate(-50%)
 }
 
 #capture:active {
-  background: #D32F2F;
+  background: #D32F2F !important;
   border: 4px solid white;
 }
 
-#settings {
-  left: 5%;
-  bottom: 2.5%;
-  background: white;
-  font-size: 1em;
-  color: gray;
-}
-
-#shopping-cart {
-  right: 5%;
-  bottom: 2.5%;
-  background: white;
-  font-size: 1em;
-  color: gray;
-}
 
 #video-bg {
   position: fixed;
