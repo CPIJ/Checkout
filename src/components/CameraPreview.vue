@@ -5,16 +5,22 @@
           Your browser does not support the video tag.
       </video>
       </div>
+      <div class="loader-container" v-if="loading">
+        <v-progress-circular
+          class="loader"
+          :size="50"
+          color="primary"
+          indeterminate
+        />
+    </div>
       <button v-if="scanMethod !== 'barcode'" :class="[scanMethod + '-active']" @click="capture" class="reset circle" id="capture"></button>
       <button v-if="scanMethod === 'barcode'" @click="reload" class="reset circle" id="capture">Cancel</button>
-      <button @click="$router.push({ name: 'home' })"  class="reset circle" id="settings"><fa icon="arrow-left"></fa></button>
-      <button @click="$router.push('/shopping-cart')"  class="reset circle" id="shopping-cart"><fa icon="shopping-cart"></fa></button>
     </section>
 </template>
 
 <script>
 import smartcrop from "smartcrop";
-import { mediaConstraints } from "@/classes/utils";
+import { mediaConstraints, timeout } from "@/classes/utils";
 import { Webcam } from "@/classes/Webcam";
 
 export default {
@@ -22,7 +28,8 @@ export default {
 
   data() {
     return {
-      scanMethod: "product"
+      scanMethod: "product",
+      loading: false
     };
   },
 
@@ -33,12 +40,15 @@ export default {
 
   methods: {
     reload() {
-      this.$router.push('/')
+      this.$router.push("/");
     },
     async scanProduct() {
+      this.loading = true;
+      await timeout(500)
       const image = await this.getImage(416, 416);
       const imageData = Webcam.capture(image);
       const predictions = await this.$productClassifier.predict(imageData);
+      this.loading = false;
 
       if (predictions.length > 0) {
         const product = await this.$productService.getByEan(predictions[0].ean);
@@ -157,6 +167,27 @@ export default {
 </script>
 
 <style>
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+}
+
+.loader-container {
+  padding: 3em;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 20vw;
+  height: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
 .reset {
   margin: 0;
   padding: 0;
@@ -173,7 +204,7 @@ export default {
 }
 
 #capture.product-active {
-  background-color: salmon;
+  background-color: #EF5350;
 }
 
 #capture.barcode-active {
@@ -187,11 +218,11 @@ export default {
 #capture {
   bottom: 2.5%;
   left: calc(50vw - (18vw / 2));
-  border: 4px solid lightgrey;
+  border: 4px solid #f5f5f5;
 }
 
 #capture:active {
-  background: red;
+  background: #D32F2F;
   border: 4px solid white;
 }
 

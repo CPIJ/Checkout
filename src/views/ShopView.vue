@@ -1,5 +1,7 @@
 <template>
-  <div class="home">
+  <v-content>
+    <v-btn @click="$router.push({ name: 'home' })" style="left: 5%; bottom: 2.5%;" fixed fab><v-icon>arrow_back</v-icon></v-btn>
+    <v-btn @click="$router.push('/shopping-cart')" style="right: 5%; bottom: 2.5%;" fixed fab><v-icon>shopping_cart</v-icon></v-btn>
     <camera-preview @product-classified="onProductClassified"/>
     <div class="thumbnails">
       <product-thumbnail
@@ -10,14 +12,14 @@
         :product="product"
       />
     </div>
-  </div>
+  </v-content>
 </template>
 
 <script>
-import Product from "@/models/Product.js"
+import Product from "@/models/Product.js";
 import CameraPreview from "@/components/CameraPreview.vue";
 import ProductThumbnail from "@/components/ProductThumbnail.vue";
-import ProductService from "@/services/ProductService"
+import ProductService from "@/services/ProductService";
 
 export default {
   name: "shop-view",
@@ -28,7 +30,7 @@ export default {
 
   mounted() {
     if (!this.$dependenciesLoaded()) {
-      this.$router.push('/')
+      this.$router.push("/");
     }
   },
 
@@ -43,8 +45,13 @@ export default {
       this.productThumbnails.push(product);
     },
     async addProduct(product) {
-      await this.$productService.addToShoppingCart(product, this.$store.state.userId)
-      this.productThumbnails = this.productThumbnails.filter(p => p.ean !== product.ean)
+      await this.$productService.addToShoppingCart(
+        product,
+        this.$store.state.userId
+      );
+      this.productThumbnails = this.productThumbnails.filter(
+        p => p.ean !== product.ean
+      );
     }
   }
 };
