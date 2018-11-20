@@ -44,7 +44,7 @@ export default {
     },
     async scanProduct() {
       this.loading = true;
-      await timeout(500)
+      await timeout(500);
       const image = await this.getImage(416, 416);
       const imageData = Webcam.capture(image);
       const predictions = await this.$productClassifier.predict(imageData);
@@ -53,7 +53,21 @@ export default {
       if (predictions.length > 0) {
         const product = await this.$productService.getByEan(predictions[0].ean);
 
-        this.$emit("product-classified", product);
+        if (!product.isAvailableInPhs) {
+          const wantsToHelp = confirm(
+            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
+          );
+
+          if (wantsToHelp) {
+            this.scanMethod = "new";
+          } else {
+            this.scanMethod = "product";
+            this.$emit("product-classified", product);
+          }
+        } else {
+          this.$emit("product-classified", product);
+          this.scanMethod = "product";
+        }
       } else {
         alert("Dit product ken ik nog niet, wil je de barcode scannen?");
         this.scanMethod = "barcode";
@@ -204,7 +218,7 @@ export default {
 }
 
 #capture.product-active {
-  background-color: #EF5350;
+  background-color: #ef5350;
 }
 
 #capture.barcode-active {
@@ -220,15 +234,14 @@ export default {
   bottom: 2.5%;
   left: 50%;
   border: 4px solid #f5f5f5;
-  background-color: #EF5350;
-  transform: translate(-50%)
+  background-color: #ef5350;
+  transform: translate(-50%);
 }
 
 #capture:active {
-  background: #D32F2F !important;
+  background: #d32f2f !important;
   border: 4px solid white;
 }
-
 
 #video-bg {
   position: fixed;
