@@ -6,6 +6,10 @@ export default class ImageService {
   async saveImage(image) {
     return await fetch(`${this.baseUrl}/training-images`, {
       method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(image)
     });
   }

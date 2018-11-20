@@ -59,10 +59,12 @@ export default {
       this.isSnapping = false;
 
       await this.$imageService.saveImage({
-        ean: this.ean,
-        imageUri: uri,
-        name: generateCombination(2, "", true)
+        value: uri
       });
+
+      alert('Bedankt voor uw hulp!')
+
+      this.$router.go(-1)
     }
   }
 };
