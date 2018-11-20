@@ -43,7 +43,7 @@ export default {
           this.elem.requestFullscreen();
         }
       }
-    },
+    }
   },
 
   computed: {

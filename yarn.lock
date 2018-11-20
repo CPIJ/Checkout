@@ -7364,6 +7364,18 @@ vue@^2.5.16, vue@^2.5.17:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
+vuedl@0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/vuedl/-/vuedl-0.0.13.tgz#cac3227857cde519a04a2f2bfa317474345463f1"
+  integrity sha512-m+oPzVfTslcVJlpu2uwZaghP9pEarXqKVRGSkFCu8pGNSUyVCghISyKa3x2HWlD0QYVZUW4ezJk66RhGukQa5Q==
+
+vuetify-dialog@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/vuetify-dialog/-/vuetify-dialog-0.0.12.tgz#44a8691e334424ae62718f579b9b750485e17183"
+  integrity sha512-lZi97oy49mswm6dAoEUri7UfPWQUQdJs7wzjLwDNNaQ0RLSJYVO4P9s4ZlXwE6Aj1BVkeMnsLPAajltrQr8wuw==
+  dependencies:
+    vuedl "0.0.13"
+
 vuetify-loader@^1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.0.6.tgz#aadddbf8bfe0e383b54522dd5aa0fdae85fff6c9"
