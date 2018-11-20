@@ -13,17 +13,25 @@
         <vue-qr id="qr" :text="$store.state.userId" :size="vw"></vue-qr>
       </v-layout>
     </v-container>
+    <Alert
+      :body="'Uw betaling is geslaagd!'"
+      :show="showThanks"
+      :header="'Bedankt!'"
+      @ok="showThanks = false; $router.push({ name: 'home' })"
+    />
   </v-content>
 </template>
 
 <script>
 import VueQr from "vue-qr";
 import { calculateViewWidth, decode } from "@/classes/utils";
-import Message from '@/classes/Message'
+import Message from "@/classes/Message";
+import Alert from "@/components/Alert";
 
 export default {
   components: {
-    VueQr
+    VueQr,
+    Alert
   },
 
   mounted() {
@@ -32,18 +40,21 @@ export default {
 
   mqtt: {
     "sw-checkout/cash-register": function(bytes) {
-      const message = Message.parse(decode(bytes))
+      const message = Message.parse(decode(bytes));
 
-      if (message.subject === 'PAYMENT_SUCESSFUL' && message.body === this.$store.state.userId) {
-        alert('Bedankt voor uw betaling!')
-        this.$router.push({ name: 'home' })
+      if (
+        message.subject === "PAYMENT_SUCESSFUL" &&
+        message.body === this.$store.state.userId
+      ) {
+        this.showThanks = true;
       }
     }
   },
 
   data() {
     return {
-      loading: true
+      loading: true,
+      showThanks: false
     };
   },
 
