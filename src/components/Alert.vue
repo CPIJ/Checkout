@@ -13,15 +13,6 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
-          <v-btn
-            color="red"
-            flat="flat"
-            @click="$emit('cancel');"
-          >
-            Annuleren
-          </v-btn>
-
           <v-btn
             color="green darken-1"
             flat="flat"

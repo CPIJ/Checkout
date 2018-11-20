@@ -15,6 +15,21 @@
     </div>
     <v-btn v-if="scanMethod !== 'barcode'"   @click="capture" fab fixed id="capture"></v-btn>
     <v-btn v-if="scanMethod === 'barcode'" @click="reload" style="background-color: rgba(255,255,255,0.7); font-size: 0.6em; font-weight: bold;"  fab fixed id="capture">Cancel</v-btn>
+    <Alert
+      :show="showBarcodeAlert"
+      :body="'Dit product ken ik nog niet, wil je de barcode scannen?'"
+      @ok="showBarcodeAlert = false; scanBarcode();"
+    />
+    <Alert
+      :show="showInvalidBarcodeAlert"
+      :body="'Ongeldige barcode, scan iets anders.'"
+      @ok="showInvalidBarcodeAlert = false"
+    />
+    <Alert
+      :show="showNoBarcodeDetectedAlert"
+      :body="'Sorry, deze barcode kon ik niet goed zien. Wil je het nog eens proberen?'"
+      @ok="showNoBarcodeDetectedAlert = false"
+    />
     </section>
 </template>
 
@@ -22,14 +37,20 @@
 import smartcrop from "smartcrop";
 import { mediaConstraints, timeout } from "@/classes/utils";
 import { Webcam } from "@/classes/Webcam";
+import Alert from "@/components/Alert";
 
 export default {
   name: "camera-preview",
-
+  components: {
+    Alert
+  },
   data() {
     return {
       scanMethod: "product",
-      loading: false
+      loading: false,
+      showBarcodeAlert: false,
+      showInvalidBarcodeAlert: false,
+      showNoBarcodeDetectedAlert: false
     };
   },
 
@@ -69,9 +90,8 @@ export default {
           this.scanMethod = "product";
         }
       } else {
-        alert("Dit product ken ik nog niet, wil je de barcode scannen?");
+        this.showBarcodeAlert = true;
         this.scanMethod = "barcode";
-        this.scanBarcode();
       }
     },
 
@@ -83,7 +103,7 @@ export default {
         const product = await this.$productService.getByEan(barcode);
 
         if (!product) {
-          alert("Ongeldige barcode, scan iets anders.");
+          this.showInvalidBarcodeAlert = true;
           this.scanMethod = "product";
           return;
         }
@@ -104,9 +124,7 @@ export default {
           this.scanMethod = "product";
         }
       } else {
-        alert(
-          "Sorry, deze barcode kon ik niet goed zien. Wil je het nog eens proberen?"
-        );
+        this.showNoBarcodeDetectedAlert = true;
         this.scanMethod = "barcode";
       }
     },
