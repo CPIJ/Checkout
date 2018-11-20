@@ -82,6 +82,14 @@ const routes = [
     meta: {
       title: 'Checkout'
     }
+  },
+  {
+    path: '*',
+    name: '404',
+    component: HomeView,
+    meta: {
+      title: '404'
+    }
   }
 ];
 
