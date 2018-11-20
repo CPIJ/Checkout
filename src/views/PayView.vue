@@ -39,12 +39,18 @@
           </v-flex>
         </v-layout>
       </v-container>
+      <Alert
+        :show="showAlert"
+        :body="'Erg ging iets fout tijdens de betaling, probeer het opnieuw a.u.b.'"
+        @ok="showAlert = false"
+      />
     </v-content>
 </template>
 
 <script>
 import { timeout } from "@/classes/utils";
 import Message from "@/classes/Message";
+import Alert from '@/components/Alert'
 
 export default {
   props: {
@@ -53,11 +59,17 @@ export default {
       required: true
     }
   },
+
+  components: {
+    Alert
+  },
+
   data() {
     return {
       shoppingCart: { items: [] },
       loading: true,
       paymentInProgess: false,
+      showAlert: false,
       headers: [
         {
           text: "Product",
@@ -90,18 +102,15 @@ export default {
         this.shoppingCart.id
       );
 
-      if (payementSuccesful) {
+      if (false) {
         this.$mqtt.publish(
           "sw-checkout/cash-register",
           new Message("PAYMENT_SUCESSFUL", this.userId).toString()
         );
         await this.$productService.createNewCartFor(this.userId);
-        alert("Uw betaling is gelukt!");
         this.$router.push({ name: "cash-register" });
       } else {
-        alert(
-          "Erg ging iets fout tijdens de betaling, probeer het opnieuw a.u.b."
-        );
+        this.showAlert = true;
       }
 
       this.paymentInProgess = false;
