@@ -2,7 +2,7 @@
     <div id="trained-images-view">
         <div class="gallery" v-for="image of images" :key="image.imageUri">
             <a :href="image.imageUri">
-                <img :src="image.imageUri" width="300" height="200">
+                <img :src="image.uri" width="300" height="200">
             </a>
         </div>
     </div>
@@ -12,37 +12,36 @@
 export default {
   async mounted() {
     const response = await this.$imageService.getAllImages();
-    const json = await response.json();
-    this.images = json.result
+    this.images = await response.json();
   },
 
   data() {
-      return {
-          images: []
-      }
+    return {
+      images: []
+    };
   }
 };
 </script>
 
 <style scoped>
 div.gallery {
-    margin: 5px;
-    border: 1px solid #ccc;
-    float: left;
-    width: 180px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 180px;
 }
 
 div.gallery:hover {
-    border: 1px solid #777;
+  border: 1px solid #777;
 }
 
 div.gallery img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 div.desc {
-    padding: 15px;
-    text-align: center;
+  padding: 15px;
+  text-align: center;
 }
 </style>
