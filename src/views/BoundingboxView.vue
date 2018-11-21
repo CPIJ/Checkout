@@ -61,8 +61,12 @@ export default {
       await this.$imageService.saveImage({ value: uri });
 
       await this.$dialog.message.success(
-        "Bedankt voor uw hulp! u wordt teruggestuurd naar de winkel..."
+        "Bedankt voor uw hulp! u wordt teruggestuurd naar de winkel...",
+        {
+          position: "bottom"
+        }
       );
+      
       this.$router.go(-1);
     }
   }
