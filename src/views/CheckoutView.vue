@@ -38,12 +38,7 @@ export default {
         message.subject === "PAYMENT_SUCESSFUL" &&
         message.body === this.$store.state.userId
       ) {
-        await this.$dialog.message.success(
-          "Uw betaling is geslaagd! U wordt teruggestuurd naar de winkel in 5 seconden.",
-          {
-            position: "bottom"
-          }
-        );
+        alert("Uw betaling is geslaagd!");
 
         this.$router.push({ name: "home" });
       }

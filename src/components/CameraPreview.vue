@@ -53,11 +53,9 @@ export default {
         const product = await this.$productService.getByEan(predictions[0].ean);
 
         if (!product.isAvailableInPhs) {
-          const wantsToHelp = await this.$dialog.confirm({
-            text:
-              "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
-            title: "Nieuw product"
-          });
+          const wantsToHelp = confirm(
+            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
+          );
 
           if (wantsToHelp) {
             this.scanMethod = "new";
@@ -71,10 +69,7 @@ export default {
           this.scanMethod = "product";
         }
       } else {
-        await this.$dialog.confirm({
-          text: "Dit product ken ik nog niet, wil je de barcode scannen?",
-          title: "Onbekent product."
-        });
+        alert("Dit product ken ik nog niet, wil je de barcode scannen?");
 
         this.scanMethod = "barcode";
 
@@ -90,21 +85,16 @@ export default {
         const product = await this.$productService.getByEan(barcode);
 
         if (!product) {
-          await this.$dialog.confirm({
-            text: "Ongeldige barcode, scan iets anders.",
-            title: "Oeps..."
-          });
+          alert("Ongeldige barcode, scan iets anders.");
 
           this.scanMethod = "product";
           return;
         }
 
         if (!product.isAvailableInPhs) {
-          const wantsToHelp = await this.$dialog.confirm({
-            text:
-              "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
-            title: "Nieuw product"
-          });
+          const wantsToHelp = confirm(
+            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
+          );
 
           if (wantsToHelp) {
             this.scanMethod = "new";
@@ -117,12 +107,9 @@ export default {
           this.scanMethod = "product";
         }
       } else {
-        this.$dialog.confirm({
-          text:
-            "Sorry, deze barcode kon ik niet goed zien. Wil je het nog eens proberen?",
-          title: "Ongeldige barcode."
-        });
-
+        alert(
+          "Sorry, deze barcode kon ik niet goed zien. Wil je het nog eens proberen?"
+        );
         this.scanMethod = "barcode";
       }
     },
@@ -149,7 +136,7 @@ export default {
           await this.scanNewProduct();
       }
 
-      this.$emit('done')
+      this.$emit("done");
     },
 
     async getImage(width, height) {
@@ -204,7 +191,7 @@ export default {
     },
 
     scanMethod(newValue) {
-      this.$emit('scan-method-changed', newValue)
+      this.$emit("scan-method-changed", newValue);
     }
   }
 };

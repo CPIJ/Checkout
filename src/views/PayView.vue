@@ -99,20 +99,14 @@ export default {
         await this.$productService.createNewCartFor(this.userId);
         this.$router.push({ name: "cash-register" });
       } else {
-        await this.$dialog.error({
-          text: "Er ging iets fout tijdens uw betaling, probeer het opniew.",
-          title: "Oeps..."
-        });
+        alert("Er ging iets fout tijdens uw betaling, probeer het opniew.");
       }
 
       this.paymentInProgess = false;
     },
 
     async cancel() {
-      const wantsToCancel = await this.$dialog.confirm({
-        text: "Wil je deze betaling afbreken?",
-        title: "Weet je het zeker?"
-      });
+      const wantsToCancel = confirm("Wil je deze betaling afbreken?");
 
       if (wantsToCancel) {
         this.$router.go(-1);
