@@ -4,19 +4,9 @@
     <v-btn @click="capture = true;" fab fixed id="capture"></v-btn>
     <v-btn @click="goToShoppingCart" style="right: 5%; bottom: 2.5%;" fixed fab><v-icon>shopping_cart</v-icon></v-btn>
 
- <v-snackbar
-      v-model="snackbar"
-      :top="true"
-      :timeout="10000"
-    >
+    <v-snackbar v-model="snackbar" :top="true" :timeout="10000">
       {{infoText}}
-      <v-btn
-        color="pink"
-        flat
-        @click="snackbar = false"
-      >
-        Sluit
-      </v-btn>
+      <v-btn color="pink" flat @click="snackbar = false">Sluit</v-btn>
     </v-snackbar>
 
     <camera-preview 
