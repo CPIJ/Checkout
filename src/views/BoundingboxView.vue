@@ -5,7 +5,7 @@
     </div>
     <canvas ref="output" id="output"></canvas>
     <bounding-box-selector :show="!isSnapping"></bounding-box-selector>
-    <button v-if="!isSnapping" id="snap" @click="snap">SNAP</button>
+    <v-btn :loading="loading" color="primary" v-if="!isSnapping" @click="snap" id="snap">Verstuur</v-btn>
   </div>
 </template>
 
@@ -33,7 +33,8 @@ export default {
 
   data() {
     return {
-      isSnapping: false
+      isSnapping: false,
+      loading: false
     };
   },
 
@@ -46,6 +47,7 @@ export default {
   methods: {
     async snap() {
       this.isSnapping = true;
+      this.loading = true;
 
       await timeout(500);
 
@@ -67,6 +69,8 @@ export default {
         }
       );
       
+      this.loading = false;
+
       this.$router.go(-1);
     }
   }
@@ -81,7 +85,8 @@ export default {
 #snap {
   position: absolute;
   bottom: 5%;
-  left: 0;
+  left: 50%;
+  transform: translate(-50%, -50%)
 }
 
 #output {
@@ -105,27 +110,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
-/* @media (min-aspect-ratio: 16/9) {
-  #img-bg > img {
-    height: 300%;
-    top: -100%;
-  }
-}
-@media (max-aspect-ratio: 16/9) {
-  #img-bg > img {
-    width: 300%;
-    left: -100%;
-  }
-}
-
-@supports (object-fit: cover) {
-  #img-bg > img {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  } */
-/* } */
 </style>

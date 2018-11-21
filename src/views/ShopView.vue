@@ -1,8 +1,21 @@
 <template>
   <v-content>
     <v-btn @click="$router.push({ name: 'home' })" style="left: 5%; bottom: 2.5%;" fixed fab><v-icon>arrow_back</v-icon></v-btn>
+    <v-btn @click="capture = true;" fab fixed id="capture"></v-btn>
     <v-btn @click="goToShoppingCart" style="right: 5%; bottom: 2.5%;" fixed fab><v-icon>shopping_cart</v-icon></v-btn>
-    <camera-preview @product-classified="onProductClassified"/>
+
+    <v-snackbar v-model="snackbar" :top="true" :timeout="10000">
+      {{infoText}}
+      <v-btn color="pink" flat @click="snackbar = false">Sluit</v-btn>
+    </v-snackbar>
+
+    <camera-preview 
+      :capture="capture" 
+      @done="capture = false" 
+      @product-classified="onProductClassified"
+      @scan-method-changed="onScanMethodChanged"
+    />
+    
     <div class="thumbnails">
       <product-thumbnail
         class="thumbnail"
@@ -39,15 +52,18 @@ export default {
   data() {
     return {
       productThumbnails: [],
-      cancel: false
+      cancel: false,
+      capture: false,
+      snackbar: false,
+      infoText: ""
     };
   },
 
   methods: {
     async onProductClassified(product) {
       if (this.productThumbnails.length >= 3) {
-        const first = this.productThumbnails.shift()
-        await this.addProduct(first) 
+        const first = this.productThumbnails.shift();
+        await this.addProduct(first);
       }
 
       this.productThumbnails.push(product);
@@ -58,6 +74,7 @@ export default {
         product,
         this.$store.state.userId
       );
+
       this.productThumbnails = this.productThumbnails.filter(
         p => p.ean !== product.ean
       );
@@ -72,6 +89,22 @@ export default {
       }
 
       this.$router.push({ name: "shopping-cart" });
+    },
+
+    onScanMethodChanged(newMethod) {
+      switch (newMethod) {
+        case "product":
+          this.snackbar = false;
+          break;
+        case "barcode":
+          this.infoText = "De barcode scanner is actief.";
+          this.snackbar = true;
+          break;
+        case "new":
+          this.infoText = "Maak een foto van het product.";
+          this.snackbar = true;
+          break;
+      }
     }
   }
 };
@@ -87,5 +120,14 @@ export default {
   width: 100%;
   height: 10vh;
   position: relative;
+}
+
+#capture.product-active {
+  bottom: 2.5%;
+  left: 50%;
+  border: 4px solid #f5f5f5;
+  background-color: #ef5350;
+  transform: translate(-50%);
+  background-color: #ef5350;
 }
 </style>

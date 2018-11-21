@@ -13,8 +13,6 @@
           indeterminate
         />
     </div>
-    <v-btn v-if="scanMethod !== 'barcode'"   @click="capture" fab fixed id="capture"></v-btn>
-    <v-btn v-if="scanMethod === 'barcode'" @click="reload" style="background-color: rgba(255,255,255,0.7); font-size: 0.6em; font-weight: bold;"  fab fixed id="capture">Cancel</v-btn>
     </section>
 </template>
 
@@ -31,6 +29,8 @@ export default {
       loading: false
     };
   },
+
+  props: ["capture"],
 
   async mounted() {
     this.$refs.video.srcObject = this.$videoStream.currentStream;
@@ -54,13 +54,14 @@ export default {
 
         if (!product.isAvailableInPhs) {
           const wantsToHelp = await this.$dialog.confirm({
-            text: "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
-            title: 'Nieuw product'
-          }
-          );
+            text:
+              "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
+            title: "Nieuw product"
+          });
 
           if (wantsToHelp) {
             this.scanMethod = "new";
+            this.$emit("product-classified", product);
           } else {
             this.scanMethod = "product";
             this.$emit("product-classified", product);
@@ -100,10 +101,10 @@ export default {
 
         if (!product.isAvailableInPhs) {
           const wantsToHelp = await this.$dialog.confirm({
-            text: "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
-            title: 'Nieuw product'
-          }
-          );
+            text:
+              "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
+            title: "Nieuw product"
+          });
 
           if (wantsToHelp) {
             this.scanMethod = "new";
@@ -136,7 +137,7 @@ export default {
       });
     },
 
-    async capture() {
+    async doCapture() {
       switch (this.scanMethod) {
         case "product":
           await this.scanProduct();
@@ -147,6 +148,8 @@ export default {
         case "new":
           await this.scanNewProduct();
       }
+
+      this.$emit('done')
     },
 
     async getImage(width, height) {
@@ -190,6 +193,18 @@ export default {
         height
       );
       return tnCanvas;
+    }
+  },
+
+  watch: {
+    async capture(newValue) {
+      if (newValue == true) {
+        await this.doCapture();
+      }
+    },
+
+    scanMethod(newValue) {
+      this.$emit('scan-method-changed', newValue)
     }
   }
 };
