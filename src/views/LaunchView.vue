@@ -4,7 +4,7 @@
       <v-layout align-center justify-center column fill-height>
         <img src="@/assets/checkout-logo.svg" alt="">
         <v-progress-linear v-if="loading" style="width:50%" :indeterminate="true"></v-progress-linear>
-        <v-btn @click="enterFullScreen(); $router.push({ name: 'home' })" v-if="!loading">Begin</v-btn>
+        <v-btn style="width:50vw; margin-top: 2em;" color="primary" @click="enterFullScreen(); $router.push({ name: 'home' })" v-if="!loading">Begin</v-btn>
       </v-layout>
     </v-container>
   </v-content>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       loading: true
-    }
+    };
   },
 
   methods: {
@@ -34,31 +34,21 @@ export default {
         document.mozCancelFullScreen ||
         document.exitFullscreen;
 
-      document.getElementById(
-        "app"
-      ).onwebkitfullscreenchange = this.onFullScreenEnter;
-      document.getElementById(
-        "app"
-      ).onmozfullscreenchange = this.onFullScreenEnter;
-      document.getElementById(
-        "app"
-      ).onfullscreenchange = this.onFullScreenEnter;
-      if (document.getElementById("app").webkitRequestFullscreen) {
-        document
-          .getElementById("app")
-          .webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      if (this.elem.webkitRequestFullscreen) {
+        this.elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
       } else {
-        if (document.getElementById("app").mozRequestFullScreen) {
-          document.getElementById("app").mozRequestFullScreen();
+        if (this.elem.mozRequestFullScreen) {
+          this.elem.mozRequestFullScreen();
         } else {
-          document.getElementById("app").requestFullscreen();
+          this.elem.requestFullscreen();
         }
       }
-    },
-    onFullScreenEnter() {
-      console.log("Entered fullscreen!");
-      elem.onwebkitfullscreenchange = () => console.log("exit");
-      elem.onmozfullscreenchange = () => console.log("exit");
+    }
+  },
+
+  computed: {
+    elem() {
+      return document.getElementById("app");
     }
   }
 };

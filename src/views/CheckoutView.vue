@@ -19,24 +19,30 @@
 <script>
 import VueQr from "vue-qr";
 import { calculateViewWidth, decode } from "@/classes/utils";
-import Message from '@/classes/Message'
+import Message from "@/classes/Message";
 
 export default {
   components: {
     VueQr
   },
 
-  mounted() {
+  async mounted() {
     this.$mqtt.subscribe("sw-checkout/cash-register");
   },
 
   mqtt: {
-    "sw-checkout/cash-register": function(bytes) {
-      const message = Message.parse(decode(bytes))
+    "sw-checkout/cash-register": async function(bytes) {
+      const message = Message.parse(decode(bytes));
 
-      if (message.subject === 'PAYMENT_SUCESSFUL' && message.body === this.$store.state.userId) {
-        alert('Bedankt voor uw betaling!')
-        this.$router.push({ name: 'home' })
+      if (
+        message.subject === "PAYMENT_SUCESSFUL" &&
+        message.body === this.$store.state.userId
+      ) {
+        await this.$dialog.message.success(
+          "Uw betaling is geslaagd! U wordt teruggestuurd naar de winkel in 5 seconden."
+        );
+
+        this.$router.push({ name: "home" });
       }
     }
   },

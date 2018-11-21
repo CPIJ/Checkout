@@ -1,5 +1,6 @@
 import Vue from "vue";
 import './plugins/vuetify'
+import Vuetify from 'vuetify'
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -7,6 +8,11 @@ import ProductServicePlugin from "@/plugins/ProductServicePlugin";
 import ImageServicePlugin from "@/plugins/ImageServicePlugin";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import BarcodeScannerPlugin from "@/plugins/BarcodeScannerPlugin";
+import VuetifyDialog from 'vuetify-dialog'
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import VueMqtt from "vue-mqtt";
+import ProductClassifierPlugin from "@/plugins/ProductClassifierPlugin";
+import VideoStreamPlugin from "@/plugins/VideoStreamPlugin";
 import {
   faPlus,
   faMinus,
@@ -17,10 +23,6 @@ import {
   faMoneyBill,
   faArrowLeft
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import VueMqtt from "vue-mqtt";
-import ProductClassifierPlugin from "@/plugins/ProductClassifierPlugin";
-import VideoStreamPlugin from "@/plugins/VideoStreamPlugin";
 
 library.add(
   faPlus,
@@ -32,7 +34,10 @@ library.add(
   faMoneyBill,
   faArrowLeft
 );
+
 Vue.component("fa", FontAwesomeIcon);
+
+Vue.use(Vuetify)
 
 Vue.use(ProductServicePlugin, {
   apiKey: process.env.VUE_APP_API_KEY,
@@ -57,6 +62,8 @@ Vue.use({
       Vue.prototype.$productClassifier.loaded && Vue.prototype.$videoStream.loaded;
   }
 });
+
+Vue.use(VuetifyDialog)
 
 Vue.config.productionTip = false;
 

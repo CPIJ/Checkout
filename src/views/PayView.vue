@@ -53,6 +53,7 @@ export default {
       required: true
     }
   },
+
   data() {
     return {
       shoppingCart: { items: [] },
@@ -96,19 +97,24 @@ export default {
           new Message("PAYMENT_SUCESSFUL", this.userId).toString()
         );
         await this.$productService.createNewCartFor(this.userId);
-        alert("Uw betaling is gelukt!");
         this.$router.push({ name: "cash-register" });
       } else {
-        alert(
-          "Erg ging iets fout tijdens de betaling, probeer het opnieuw a.u.b."
-        );
+        await this.$dialog.error({
+          text: "Er ging iets fout tijdens uw betaling, probeer het opniew.",
+          title: "Oeps..."
+        });
       }
 
       this.paymentInProgess = false;
     },
 
-    cancel() {
-      if (confirm("Wil je deze betaling afbreken?")) {
+    async cancel() {
+      const wantsToCancel = await this.$dialog.confirm({
+        text: "Wil je deze betaling afbreken?",
+        title: "Weet je het zeker?"
+      });
+
+      if (wantsToCancel) {
         this.$router.go(-1);
       }
     }

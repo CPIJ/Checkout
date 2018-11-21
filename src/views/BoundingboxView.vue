@@ -58,13 +58,12 @@ export default {
 
       this.isSnapping = false;
 
-      await this.$imageService.saveImage({
-        value: uri
-      });
+      await this.$imageService.saveImage({ value: uri });
 
-      alert('Bedankt voor uw hulp!')
-
-      this.$router.go(-1)
+      await this.$dialog.message.success(
+        "Bedankt voor uw hulp! u wordt teruggestuurd naar de winkel..."
+      );
+      this.$router.go(-1);
     }
   }
 };
