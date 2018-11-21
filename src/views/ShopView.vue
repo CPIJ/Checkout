@@ -124,10 +124,8 @@ export default {
 
 #capture.product-active {
   bottom: 2.5%;
-  left: 50%;
+  left: 45%;
   border: 4px solid #f5f5f5;
-  background-color: #ef5350;
-  transform: translate(-50%);
   background-color: #ef5350;
 }
 </style>

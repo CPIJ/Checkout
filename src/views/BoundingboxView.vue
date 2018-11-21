@@ -6,6 +6,11 @@
     <canvas ref="output" id="output"></canvas>
     <bounding-box-selector :show="!isSnapping"></bounding-box-selector>
     <v-btn :loading="loading" color="primary" v-if="!isSnapping" @click="snap" id="snap">Verstuur</v-btn>
+        <v-snackbar v-model="snackbar" :top="true" :timeout="10000">
+      Selecteer alle vakken waarin het product zich bevindt.
+      <v-btn color="pink" flat @click="snackbar = false">Sluit</v-btn>
+    </v-snackbar>
+
   </div>
 </template>
 
@@ -34,7 +39,8 @@ export default {
   data() {
     return {
       isSnapping: false,
-      loading: false
+      loading: false,
+      snackbar: true
     };
   },
 
@@ -63,7 +69,7 @@ export default {
       await this.$imageService.saveImage({ value: uri });
 
       alert("Bedankt voor uw hulp! u wordt teruggestuurd naar de winkel...");
-      
+
       this.loading = false;
 
       this.$router.go(-1);
@@ -73,15 +79,11 @@ export default {
 </script>
 
 <style scoped>
-* {
-  color: black;
-}
-
 #snap {
   position: absolute;
   bottom: 5%;
   left: 50%;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
 }
 
 #output {
