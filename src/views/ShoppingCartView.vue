@@ -105,12 +105,9 @@ export default {
     },
 
     async remove(product) {
-      const wantsToDelete = await this.$dialog.confirm({
-        text: `Weet je zeker dat je ${product.amount}x ${
-          product.name
-        } wil verwijderen?`,
-        title: "Weet je het zeker?"
-      });
+      const wantsToDelete = confirm(
+        `Weet je zeker dat je ${product.amount}x ${product.name} wil verwijderen?`
+      );
 
       if (wantsToDelete) {
         this.products = this.products.filter(p => p.name !== product.name);

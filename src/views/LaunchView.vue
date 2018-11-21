@@ -4,7 +4,7 @@
       <v-layout align-center justify-center column fill-height>
         <img src="@/assets/checkout-logo.svg" alt="">
         <v-progress-linear v-if="loading" style="width:50%" :indeterminate="true"></v-progress-linear>
-        <v-btn style="width:50vw; margin-top: 2em;" color="primary" @click="enterFullScreen(); $router.push({ name: 'home' })" v-if="!loading">Begin</v-btn>
+        <!-- <v-btn style="width:50vw; margin-top: 2em;" color="primary" @click="enterFullScreen(); $router.push({ name: 'home' })" v-if="!loading">Begin</v-btn> -->
       </v-layout>
     </v-container>
   </v-content>
@@ -19,6 +19,7 @@ export default {
     await this.$videoStream.init();
 
     this.loading = false;
+    this.$router.push({ name: 'home' })
   },
 
   data() {
