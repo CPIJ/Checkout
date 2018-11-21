@@ -5,7 +5,7 @@
     <v-spacer></v-spacer>
     <v-progress-linear slot="extension" indeterminate color="blue lighten-1"></v-progress-linear>
   </v-toolbar>
-  <v-containergrid-list-lg>
+  <v-container grid-list-lg>
     <v-layout row wrap fill->
       <v-flex
         v-for="image of images"
