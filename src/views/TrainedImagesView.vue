@@ -1,9 +1,9 @@
 <template>
  <v-content>
   <v-toolbar dense dark color="primary">
-    <v-toolbar-title>Nieuwe producten trainen...</v-toolbar-title>
+    <v-toolbar-title>Nieuwe producten verwerken...</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-progress-linear slot="extension" indeterminate color="blue lighten-1"></v-progress-linear>
+    <v-progress-linear slot="extension" :value="value" color="blue lighten-1"></v-progress-linear>
   </v-toolbar>
   <v-container grid-list-lg>
     <v-layout row wrap fill->
@@ -38,20 +38,26 @@
 </template>
 
 <script>
+import { randomIntBetween } from '@/classes/utils'
+
 export default {
   async mounted() {
     const response = await this.$imageService.getAllImages();
     this.images = await response.json();
+
+    this.interval = setInterval(() => {
+      this.value++
+    }, 1000);
   },
 
   data() {
     return {
-      images: []
+      images: [],
+      value: 0
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
-
 </style>
