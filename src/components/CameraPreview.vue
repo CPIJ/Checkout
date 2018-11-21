@@ -53,8 +53,10 @@ export default {
         const product = await this.$productService.getByEan(predictions[0].ean);
 
         if (!product.isAvailableInPhs) {
-          const wantsToHelp = confirm(
-            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
+          const wantsToHelp = await this.$dialog.confirm({
+            text: "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
+            title: 'Nieuw product'
+          }
           );
 
           if (wantsToHelp) {
@@ -97,8 +99,10 @@ export default {
         }
 
         if (!product.isAvailableInPhs) {
-          const wantsToHelp = confirm(
-            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
+          const wantsToHelp = await this.$dialog.confirm({
+            text: "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?",
+            title: 'Nieuw product'
+          }
           );
 
           if (wantsToHelp) {

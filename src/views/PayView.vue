@@ -108,8 +108,13 @@ export default {
       this.paymentInProgess = false;
     },
 
-    cancel() {
-      if (confirm("Wil je deze betaling afbreken?")) {
+    async cancel() {
+      const wantsToCancel = await this.$dialog.confirm({
+        text: "Wil je deze betaling afbreken?",
+        title: "Weet je het zeker?"
+      });
+
+      if (wantsToCancel) {
         this.$router.go(-1);
       }
     }

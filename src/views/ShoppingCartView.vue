@@ -56,7 +56,9 @@
 <script>
 export default {
   async mounted() {
-    this.cart = await this.$productService.getShoppingCart(this.$store.state.userId);
+    this.cart = await this.$productService.getShoppingCart(
+      this.$store.state.userId
+    );
     this.products = this.cart.items;
     this.loading = false;
   },
@@ -75,16 +77,17 @@ export default {
           sortable: false
         },
         {
-          text: 'Aantal',
-          value: 'Aantal',
-          sortable: false,
+          text: "Aantal",
+          value: "Aantal",
+          sortable: false
         },
         {
-          text: 'Prijs',
-          value: 'prijs',
-          sortable: false,
-        },{
-          text: '',
+          text: "Prijs",
+          value: "prijs",
+          sortable: false
+        },
+        {
+          text: "",
           sortable: false
         }
       ]
@@ -101,8 +104,15 @@ export default {
       this.onUpdateDatabase = setTimeout(this.saveState, 1000);
     },
 
-    remove(product) {
-      if (confirm(`Weet je zeker dat je ${product.amount}x ${product.name} wil verwijderen?`)) {
+    async remove(product) {
+      const wantsToDelete = await this.$dialog.confirm({
+        text: `Weet je zeker dat je ${product.amount}x ${
+          product.name
+        } wil verwijderen?`,
+        title: "Weet je het zeker?"
+      });
+
+      if (wantsToDelete) {
         this.products = this.products.filter(p => p.name !== product.name);
         clearTimeout(this.onUpdateDatabase);
         this.onUpdateDatabase = setTimeout(this.saveState, 1000);
