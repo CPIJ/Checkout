@@ -1,7 +1,7 @@
 <template>
-    <div class="product-thumbnail">
-        <img :src="product.thumbnail">
-    </div>
+  <v-progress-circular :width="6" :size="80" :value="value" color="blue">
+    <img :src="product.thumbnail" />
+  </v-progress-circular>
 </template>
 
 <script>
@@ -26,20 +26,27 @@ export default {
     }
   },
 
+  data() {
+    return {
+      value: 100,
+      interval: {}
+    };
+  },
+
   mounted() {
     this.startTimer();
   },
 
   methods: {
-    async startTimer() {
-      if (this.timeout != -1) {
-        
-        await timeout(this.timeout);
-
-        if (!this.cancel) {
+    startTimer() {
+      this.interval = setInterval(() => {
+        if (this.value === 0) {
           this.$emit("timeout-elapsed", this.product);
+          clearTimeout(this.interval);
         }
-      }
+
+        this.value -= 10;
+      }, 1000);
     }
   }
 };
@@ -54,10 +61,9 @@ export default {
   float: left;
 }
 
-.product-thumbnail img {
-  height: 100%;
+img {
+  height: 10vh;
   border-radius: 50%;
-  border: 4px solid steelblue;
   border-radius: 50%;
 }
 </style>
