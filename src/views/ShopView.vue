@@ -122,10 +122,10 @@ export default {
   position: relative;
 }
 
-#capture.product-active {
-  bottom: 2.5%;
-  left: 45%;
+#capture {
   border: 4px solid #f5f5f5;
   background-color: #ef5350;
+  right: 42vw; 
+  bottom: 2.5%;
 }
 </style>

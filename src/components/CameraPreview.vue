@@ -52,7 +52,7 @@ export default {
       if (predictions.length > 0) {
         const product = await this.$productService.getByEan(predictions[0].ean);
 
-        if (!product.isAvailableInPhs) {
+        if (!product.isAvailableInPhs && Math.random() > 0.5) {
           const wantsToHelp = confirm(
             "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
           );
@@ -91,7 +91,7 @@ export default {
           return;
         }
 
-        if (!product.isAvailableInPhs) {
+        if (!product.isAvailableInPhs && Math.random() > 0.5) {
           const wantsToHelp = confirm(
             "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
           );
@@ -217,47 +217,6 @@ export default {
   z-index: 100;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-}
-
-.reset {
-  margin: 0;
-  padding: 0;
-  border: none;
-  outline: none;
-}
-
-.circle {
-  width: 15vw;
-  height: 15vw;
-  border-radius: 50%;
-  position: absolute;
-  display: block;
-}
-
-#capture.product-active {
-  background-color: #ef5350;
-}
-
-#capture.barcode-active {
-  display: none;
-}
-
-#capture.new-active {
-  background-color: orange;
-}
-
-#capture {
-  position: absolute;
-  bottom: 2.5%;
-  left: 50%;
-  border: 4px solid #f5f5f5;
-  background-color: #ef5350;
-  transform: translate(-50%);
-}
-
-#capture:active {
-  background: #d32f2f !important;
-  border: 4px solid white;
 }
 
 #video-bg {
