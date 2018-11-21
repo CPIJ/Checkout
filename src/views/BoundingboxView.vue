@@ -6,11 +6,6 @@
     <canvas ref="output" id="output"></canvas>
     <bounding-box-selector :show="!isSnapping"></bounding-box-selector>
     <button v-if="!isSnapping" id="snap" @click="snap">SNAP</button>
-    <Alert
-      :show="showThanksAlert"
-      :body="'Bedankt voor uw hulp!'"
-      @ok="showThanksAlert = false; $router.go(-1)"
-    />
   </div>
 </template>
 
@@ -19,13 +14,11 @@ import BoundingBoxSelector from "@/components/BoundingBoxSelector";
 import { generateCombination } from "gfycat-style-urls";
 import { timeout } from "@/classes/utils";
 import html2canvas from "html2canvas";
-import Alert from "@/components/Alert";
 
 export default {
   name: "boundingbox-view",
   components: {
-    BoundingBoxSelector,
-    Alert
+    BoundingBoxSelector
   },
   props: {
     image: {
@@ -40,8 +33,7 @@ export default {
 
   data() {
     return {
-      isSnapping: false,
-      showThanksAlert: false
+      isSnapping: false
     };
   },
 
@@ -66,11 +58,12 @@ export default {
 
       this.isSnapping = false;
 
-      await this.$imageService.saveImage({
-        value: uri
-      });
+      await this.$imageService.saveImage({ value: uri });
 
-      this.showThanksAlert = true;
+      await this.$dialog.message.success(
+        "Bedankt voor uw hulp! u wordt teruggestuurd naar de winkel..."
+      );
+      this.$router.go(-1);
     }
   }
 };
