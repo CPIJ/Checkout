@@ -39,7 +39,10 @@ export default {
         message.body === this.$store.state.userId
       ) {
         await this.$dialog.message.success(
-          "Uw betaling is geslaagd! U wordt teruggestuurd naar de winkel in 5 seconden."
+          "Uw betaling is geslaagd! U wordt teruggestuurd naar de winkel in 5 seconden.",
+          {
+            position: "bottom"
+          }
         );
 
         this.$router.push({ name: "home" });

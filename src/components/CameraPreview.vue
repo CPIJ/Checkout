@@ -70,7 +70,7 @@ export default {
           this.scanMethod = "product";
         }
       } else {
-        await this.$dialog.warning({
+        await this.$dialog.confirm({
           text: "Dit product ken ik nog niet, wil je de barcode scannen?",
           title: "Onbekent product."
         });
@@ -89,7 +89,7 @@ export default {
         const product = await this.$productService.getByEan(barcode);
 
         if (!product) {
-          await this.$dialog.warning({
+          await this.$dialog.confirm({
             text: "Ongeldige barcode, scan iets anders.",
             title: "Oeps..."
           });
@@ -116,7 +116,7 @@ export default {
           this.scanMethod = "product";
         }
       } else {
-        this.$dialog.warning({
+        this.$dialog.confirm({
           text:
             "Sorry, deze barcode kon ik niet goed zien. Wil je het nog eens proberen?",
           title: "Ongeldige barcode."

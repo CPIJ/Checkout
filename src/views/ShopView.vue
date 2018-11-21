@@ -6,9 +6,10 @@
     <div class="thumbnails">
       <product-thumbnail
         class="thumbnail"
-        v-for="product of productThumbnails"
+        v-for="(product, index) of productThumbnails"
         :key="product.ean"
         :cancel="cancel"
+        :index="index"
         v-on:timeout-elapsed="addProduct"
         :product="product"
       />
@@ -43,7 +44,12 @@ export default {
   },
 
   methods: {
-    onProductClassified(product) {
+    async onProductClassified(product) {
+      if (this.productThumbnails.length >= 3) {
+        const first = this.productThumbnails.shift()
+        await this.addProduct(first) 
+      }
+
       this.productThumbnails.push(product);
     },
 
@@ -62,10 +68,10 @@ export default {
       const list = this.productThumbnails.slice();
 
       for (let product of list) {
-        await this.addProduct(product)
+        await this.addProduct(product);
       }
 
-      this.$router.push({ name: 'shopping-cart' })
+      this.$router.push({ name: "shopping-cart" });
     }
   }
 };
