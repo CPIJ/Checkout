@@ -125,9 +125,10 @@ export default {
     },
 
     async saveState() {
-      const updatedList = this.products.flatMap(p =>
-        Array(Number(p.amount)).fill(p.ean)
-      );
+      const updatedList = this.products.flatMap(p => {
+        const n = Number(p.amount)
+        return Array(n > 10 ? 10 : n).fill(p.ean);
+      });
       this.$productService.saveCart(this.cart.id, updatedList);
     }
   },
