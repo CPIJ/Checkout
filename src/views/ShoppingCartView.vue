@@ -106,7 +106,7 @@ export default {
 
     async remove(product) {
       const wantsToDelete = confirm(
-        `Weet je zeker dat je ${product.amount}x ${product.name} wil verwijderen?`
+        `Weet u zeker dat u ${product.amount}x ${product.name} wil verwijderen?`
       );
 
       if (wantsToDelete) {
@@ -125,9 +125,10 @@ export default {
     },
 
     async saveState() {
-      const updatedList = this.products.flatMap(p =>
-        Array(Number(p.amount)).fill(p.ean)
-      );
+      const updatedList = this.products.flatMap(p => {
+        const n = Number(p.amount)
+        return Array(n > 10 ? 10 : n).fill(p.ean);
+      });
       this.$productService.saveCart(this.cart.id, updatedList);
     }
   },

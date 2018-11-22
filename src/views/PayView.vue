@@ -106,7 +106,7 @@ export default {
     },
 
     async cancel() {
-      const wantsToCancel = confirm("Wil je deze betaling afbreken?");
+      const wantsToCancel = confirm("Weet u zeker dat u de betaling wil afbreken?");
 
       if (wantsToCancel) {
         this.$router.go(-1);
