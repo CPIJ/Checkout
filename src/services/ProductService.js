@@ -13,14 +13,16 @@ export default class ProductService {
   }
 
   async getByEan(eanCode) {
-    const document = await this.products.doc(eanCode).get();
-    const data = document.data();
+    const snapshot = await this.products.where('ean', '==', eanCode).get()
 
-    if (!data) {
-      return undefined;
+    if (snapshot.empty) {
+      return undefined
     }
 
-    return new Product({ ean: eanCode, ...data });
+    const document = snapshot.docs[0]
+    const data = document.data()
+
+    return new Product(data);
   }
 
   async addToShoppingCart(product, userId) {
