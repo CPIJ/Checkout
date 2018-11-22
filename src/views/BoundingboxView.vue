@@ -8,7 +8,6 @@
     <v-btn :loading="loading" color="primary" v-if="!isSnapping" @click="snap" id="snap">Verstuur</v-btn>
         <v-snackbar v-model="snackbar" :top="true" :timeout="10000">
       Selecteer alle vakken waarin het product zich bevindt.
-      <v-btn color="pink" flat @click="snackbar = false">Sluit</v-btn>
     </v-snackbar>
 
   </div>
@@ -68,7 +67,7 @@ export default {
 
       await this.$imageService.saveImage({ value: uri });
 
-      alert("Bedankt voor uw hulp! u wordt teruggestuurd naar de winkel...");
+      alert("Bedankt voor uw hulp, u krijgt 10% korting!");
 
       this.loading = false;
 

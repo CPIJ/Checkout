@@ -61,7 +61,8 @@ export default class ProductService {
         name: name,
         ean: products.find(p => p.name === name).ean,
         amount: products.filter(p => p.name === name).length,
-        price: products.find(p => p.name === name).price
+        price: products.find(p => p.name === name).price,
+        isCharity: products.find(p => p.name === name).isCharity,
       }))
     };
   }

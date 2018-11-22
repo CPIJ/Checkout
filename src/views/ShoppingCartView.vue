@@ -13,7 +13,7 @@
         :items="products"
       >
         <template slot="items" slot-scope="props">
-          <tr @click="show = true; selectedProduct = props.item">
+          <tr :class="{'green lighten-5': props.item.isCharity}" @click="show = true; selectedProduct = props.item">
             <td>{{props.item.name}}</td>
             <td>
               <v-edit-dialog
@@ -143,4 +143,7 @@ export default {
 </script>
 
 <style scoped>
+.charity {
+  background-color: salmon;
+}
 </style>

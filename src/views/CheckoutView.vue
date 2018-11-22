@@ -21,13 +21,41 @@ import VueQr from "vue-qr";
 import { calculateViewWidth, decode } from "@/classes/utils";
 import Message from "@/classes/Message";
 
+const donationEan = "0000000000016";
+
 export default {
   components: {
     VueQr
   },
 
   async mounted() {
+    await this.askForDonation();
     this.$mqtt.subscribe("sw-checkout/cash-register");
+  },
+
+  methods: {
+    async askForDonation() {
+      const cart = await this.$productService.getShoppingCart(
+        this.$store.state.userId
+      );
+
+      console.log(cart)
+
+      if (cart.items.filter(i => i.ean === donationEan).length > 0) {
+        return;
+      }
+
+      const wantsToDonate = confirm("Wil je 1 euro doneren aan het goede doel?");
+
+      if (wantsToDonate) {
+        const product = await this.$productService.addToShoppingCart(
+          {
+            ean: donationEan
+          },
+          this.$store.state.userId
+        );
+      }
+    }
   },
 
   mqtt: {

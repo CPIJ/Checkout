@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import smartcrop from "smartcrop";
-import { mediaConstraints, timeout } from "@/classes/utils";
+import { mediaConstraints, timeout, snap } from "@/classes/utils";
 import { Webcam } from "@/classes/Webcam";
+
 
 export default {
   name: "camera-preview",
@@ -43,75 +43,39 @@ export default {
     },
     async scanProduct() {
       this.loading = true;
+
       await timeout(500);
+
       const image = await this.getImage(416, 416);
       const imageData = Webcam.capture(image);
       const predictions = await this.$productClassifier.predict(imageData);
+
       this.loading = false;
 
       if (predictions.length > 0) {
         const product = await this.$productService.getByEan(predictions[0].ean);
 
-        if (!product.isAvailableInPhs && Math.random() > 0.5) {
-          const wantsToHelp = confirm(
-            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
-          );
-
-          if (wantsToHelp) {
-            this.scanMethod = "new";
-            this.$emit("product-classified", product);
-          } else {
-            this.scanMethod = "product";
-            this.$emit("product-classified", product);
-          }
-        } else {
-          this.$emit("product-classified", product);
-          this.scanMethod = "product";
-        }
+        this.$emit("product-classified", product);
+        this.scanMethod = "product";
       } else {
         alert("Dit product ken ik nog niet, wil je de barcode scannen?");
 
         this.scanMethod = "barcode";
-
         await this.scanBarcode();
       }
     },
 
     async scanBarcode() {
-      const image = await this.getImage();
       const barcode = await this.$barcodeScanner.scan();
+      const product = await this.$productService.getByEan(barcode);
 
-      if (barcode) {
-        const product = await this.$productService.getByEan(barcode);
-
-        if (!product) {
-          alert("Ongeldige barcode, scan iets anders.");
-
-          this.scanMethod = "product";
-          return;
-        }
-
-        if (!product.isAvailableInPhs && Math.random() > 0.5) {
-          const wantsToHelp = confirm(
-            "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?"
-          );
-
-          if (wantsToHelp) {
-            this.scanMethod = "new";
-          } else {
-            this.scanMethod = "product";
-            this.$emit("product-classified", product);
-          }
-        } else {
-          this.$emit("product-classified", product);
-          this.scanMethod = "product";
-        }
-      } else {
-        alert(
-          "Sorry, deze barcode kon ik niet goed zien. Wil je het nog eens proberen?"
-        );
-        this.scanMethod = "barcode";
+      if (product) {
+        this.$emit("product-classified", product);
+        this.scanMethod = "product";
+        return;
       }
+      const question = "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?";
+      this.scanMethod = confirm(question) ? "new" : "product";
     },
 
     async scanNewProduct() {
@@ -142,45 +106,8 @@ export default {
     async getImage(width, height) {
       const w = this.$refs.video.videoWidth;
       const h = this.$refs.video.videoHeight;
-      return await this.snap(this.$refs.video, width || w, height || h);
+      return await snap(this.$refs.video, width || w, height || h);
     },
-
-    async snap(source, width, height) {
-      var canvas = document.createElement("canvas");
-      canvas.height = source.videoHeight;
-      canvas.width = source.videoWidth;
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
-
-      const { topCrop } = await smartcrop.crop(canvas, {
-        width: width,
-        height: height
-      });
-
-      const tnCanvas = document.createElement("canvas");
-      const tnContext = tnCanvas.getContext("2d");
-      tnCanvas.width = width;
-      tnCanvas.height = height;
-
-      var bufferCanvas = document.createElement("canvas");
-      var bufferContext = bufferCanvas.getContext("2d");
-      bufferCanvas.width = source.videoWidth;
-      bufferCanvas.height = source.videoHeight;
-      bufferContext.drawImage(source, 0, 0);
-
-      tnContext.drawImage(
-        bufferCanvas,
-        topCrop.x,
-        topCrop.y,
-        width,
-        height,
-        0,
-        0,
-        width,
-        height
-      );
-      return tnCanvas;
-    }
   },
 
   watch: {
