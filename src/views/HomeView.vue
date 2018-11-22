@@ -9,7 +9,7 @@
         <v-btn block to="/shop" color="primary">Winkel</v-btn>
         <v-btn block to="/shopping-cart" color="primary">Winkelwagen</v-btn>
         <v-btn block to="/checkout" color="primary">Afrekenen</v-btn>
-        <v-btn block to="/" color="primary">Addons</v-btn>
+        <!-- <v-btn block to="/" color="primary">Addons</v-btn> -->
         <v-btn block to="/cash-register" v-if="admin" color="secondary">Kassa</v-btn>
         <v-btn block to="/trained-images" v-if="admin" color="secondary">Afbeeldingen</v-btn>
         <img style="position: fixed; bottom: 2%; width: 35vw;" src="@/assets/checkout-logo.svg" alt="">
