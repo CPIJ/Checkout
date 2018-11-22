@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-btn @click="$router.push({ name: 'home' })" style="left: 5%; bottom: 2.5%;" fixed fab><v-icon>arrow_back</v-icon></v-btn>
+    <v-btn @click="goHome" style="left: 5%; bottom: 2.5%;" fixed fab><v-icon>arrow_back</v-icon></v-btn>
     <v-btn v-if="!barcodeActive"  @click="capture = true;" fab fixed id="capture"></v-btn>
     <v-btn @click="goToShoppingCart" style="right: 5%; bottom: 2.5%;" fixed fab><v-icon>shopping_cart</v-icon></v-btn>
 
@@ -65,8 +65,6 @@ export default {
 
   methods: {
     async onProductClassified(product) {
-      this.barcodeActive = false;
-
       if (this.productThumbnails.length >= 3) {
         const first = this.productThumbnails.shift();
         await this.addProduct(first);
@@ -86,18 +84,33 @@ export default {
       );
     },
 
+    async goHome() {
+      this.cancel = true;
+
+      await this.addAllProducts();
+
+      this.$router.push({ name: "home" });
+    },
+
     async goToShoppingCart() {
       this.cancel = true;
+
+      await this.addAllProducts();
+
+      this.$router.push({ name: "shopping-cart" });
+    },
+
+    async addAllProducts() {
       const list = this.productThumbnails.slice();
 
       for (let product of list) {
         await this.addProduct(product);
       }
-
-      this.$router.push({ name: "shopping-cart" });
     },
 
     onScanMethodChanged(newMethod) {
+      this.barcodeActive = false;
+
       switch (newMethod) {
         case "product":
           this.snackbar = false;
