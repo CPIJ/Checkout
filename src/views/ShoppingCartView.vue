@@ -106,7 +106,7 @@ export default {
 
     async remove(product) {
       const wantsToDelete = confirm(
-        `Weet je zeker dat je ${product.amount}x ${product.name} wil verwijderen?`
+        `Weet u zeker dat u ${product.amount}x ${product.name} wil verwijderen?`
       );
 
       if (wantsToDelete) {

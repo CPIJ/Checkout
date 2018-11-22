@@ -45,7 +45,7 @@ export default {
         return;
       }
 
-      const wantsToDonate = confirm("Wil je 1 euro doneren aan het goede doel?");
+      const wantsToDonate = confirm("Wilt u 1 euro doneren aan het goede doel?");
 
       if (wantsToDonate) {
         const product = await this.$productService.addToShoppingCart(

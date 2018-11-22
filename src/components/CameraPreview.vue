@@ -57,7 +57,7 @@ export default {
         this.$emit("product-classified", product);
         this.scanMethod = "product";
       } else {
-        alert("Dit product ken ik nog niet, wil je de barcode scannen?");
+        alert("Dit product ken ik nog niet, scan de barcode.");
 
         this.scanMethod = "barcode";
         await this.scanBarcode();
@@ -71,10 +71,10 @@ export default {
       if (product) {
         this.$emit("product-classified", product);
 
-        const question = "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?";
+        const question = "Wil je mij helpen slimmer te worden?";
         this.scanMethod = confirm(question) ? "new" : "product";
       } else {
-        alert("Onbekende barcode, probeer het opniew.")
+        alert("Onbekende barcode, probeer het opnieuw.")
         await this.scanBarcode()
       }
     },
