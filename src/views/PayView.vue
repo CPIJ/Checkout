@@ -17,7 +17,7 @@
                   De winkelwagen is leeg. Doe eerst wat boodschappen voordat je gaat afrekenen.
                 </template>
                   <template slot="items" slot-scope="props">
-                    <tr>
+                    <tr :class="{'green lighten-5': props.item.isCharity}">
                       <td>{{props.item.name}}</td>
                       <td>{{props.item.amount}}</td>
                       <td>€{{(props.item.amount * props.item.price).toFixed(2)}}</td>
