@@ -68,7 +68,7 @@ export default {
 
       await this.$imageService.saveImage({ value: uri });
 
-      alert("Bedankt voor uw hulp! u wordt teruggestuurd naar de winkel...");
+      alert("Bedankt voor uw hulp, u krijgt 10% korting!");
 
       this.loading = false;
 
