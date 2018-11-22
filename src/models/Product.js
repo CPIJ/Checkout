@@ -6,5 +6,6 @@ export default class Product {
     this.name = props.name;
     this.price = props.price;
     this.isAvailableInPhs = props.isAvailableInPhs;
+    this.isCharity = props.isCharity || false
   }
 }
