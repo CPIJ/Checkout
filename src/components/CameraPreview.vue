@@ -20,7 +20,6 @@
 import { mediaConstraints, timeout, snap } from "@/classes/utils";
 import { Webcam } from "@/classes/Webcam";
 
-
 export default {
   name: "camera-preview",
   data() {
@@ -71,11 +70,13 @@ export default {
 
       if (product) {
         this.$emit("product-classified", product);
-        this.scanMethod = "product";
-        return;
+
+        const question = "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?";
+        this.scanMethod = confirm(question) ? "new" : "product";
+      } else {
+        alert("Onbekende barcode, probeer het opniew.")
+        await this.scanBarcode()
       }
-      const question = "Dit product is nieuw voor mij, wil je mij helpen slimmer te worden?";
-      this.scanMethod = confirm(question) ? "new" : "product";
     },
 
     async scanNewProduct() {
@@ -107,7 +108,7 @@ export default {
       const w = this.$refs.video.videoWidth;
       const h = this.$refs.video.videoHeight;
       return await snap(this.$refs.video, width || w, height || h);
-    },
+    }
   },
 
   watch: {
