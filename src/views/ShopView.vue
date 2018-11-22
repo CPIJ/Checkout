@@ -1,12 +1,11 @@
 <template>
   <v-content>
     <v-btn @click="$router.push({ name: 'home' })" style="left: 5%; bottom: 2.5%;" fixed fab><v-icon>arrow_back</v-icon></v-btn>
-    <v-btn @click="capture = true;" fab fixed id="capture"></v-btn>
+    <v-btn v-if="!barcodeActive"  @click="capture = true;" fab fixed id="capture"></v-btn>
     <v-btn @click="goToShoppingCart" style="right: 5%; bottom: 2.5%;" fixed fab><v-icon>shopping_cart</v-icon></v-btn>
 
     <v-snackbar v-model="snackbar" :top="true" :timeout="10000">
       {{infoText}}
-      <v-btn color="pink" flat @click="snackbar = false">Sluit</v-btn>
     </v-snackbar>
 
     <camera-preview 
@@ -16,6 +15,10 @@
       @scan-method-changed="onScanMethodChanged"
     />
     
+    <div v-if="barcodeActive" class="barcode-scanner">
+      <div id="line"></div>
+    </div>
+
     <div class="thumbnails">
       <product-thumbnail
         class="thumbnail"
@@ -55,12 +58,15 @@ export default {
       cancel: false,
       capture: false,
       snackbar: false,
+      barcodeActive: false,
       infoText: ""
     };
   },
 
   methods: {
     async onProductClassified(product) {
+      this.barcodeActive = false;
+
       if (this.productThumbnails.length >= 3) {
         const first = this.productThumbnails.shift();
         await this.addProduct(first);
@@ -98,6 +104,7 @@ export default {
           break;
         case "barcode":
           this.infoText = "De barcode scanner is actief.";
+          this.barcodeActive = true;
           this.snackbar = true;
           break;
         case "new":
@@ -125,7 +132,39 @@ export default {
 #capture {
   border: 4px solid #f5f5f5;
   background-color: #ef5350;
-  right: 42vw; 
+  right: 42vw;
   bottom: 2.5%;
+}
+
+.barcode-scanner {
+  width: 80vw;
+  height: 45vw;
+  /* border: 2px solid #1e88e5; */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#line {
+  height: 100%;
+  width: 4px;
+  background-color: #ef5350;
+  -webkit-animation: ease-in-out infinite alternate;
+  -webkit-animation-name: run;
+  -webkit-animation-duration: 3s;
+  position: absolute;
+}
+
+@-webkit-keyframes run {
+  0% {
+    left: 0;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 0;
+  }
 }
 </style>
