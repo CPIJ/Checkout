@@ -71,19 +71,20 @@ export default {
       if (product) {
         this.$emit("product-classified", product);
 
-        const question = "Wil je mij helpen slimmer te worden?";
+        const question =
+          "Het product is toegevoegd! Wil je mij helpen slimmer te worden?";
         this.scanMethod = confirm(question) ? "new" : "product";
       } else {
-        alert("Onbekende barcode, probeer het opnieuw.")
-        await this.scanBarcode()
+        alert("Onbekende barcode, probeer het opnieuw.");
+        await this.scanBarcode();
       }
     },
 
     async scanNewProduct() {
       const image = await this.getImage();
       this.scanMethod = "product";
-
-      this.$router.push({
+      
+      this.$emit("doCancel", {
         name: "set-boundingbox",
         params: { image: image, ean: "0".repeat(13) }
       });
