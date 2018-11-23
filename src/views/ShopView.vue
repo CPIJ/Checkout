@@ -1,8 +1,8 @@
 <template>
   <v-content>
-    <v-btn @click="goHome" style="left: 5%; bottom: 2.5%;" fixed fab><v-icon>arrow_back</v-icon></v-btn>
+    <v-btn @click="doCancel({ name: 'home' })" style="left: 5%; bottom: 2.5%;" fixed fab><v-icon>arrow_back</v-icon></v-btn>
     <v-btn v-if="!barcodeActive"  @click="capture = true;" fab fixed id="capture"></v-btn>
-    <v-btn @click="goToShoppingCart" style="right: 5%; bottom: 2.5%;" fixed fab><v-icon>shopping_cart</v-icon></v-btn>
+    <v-btn @click="doCancel({ name: 'shopping-cart' })"  style="right: 5%; bottom: 2.5%;" fixed fab><v-icon>shopping_cart</v-icon></v-btn>
 
     <v-snackbar v-model="snackbar" :top="true" :timeout="10000">
       {{infoText}}
@@ -13,6 +13,7 @@
       @done="capture = false" 
       @product-classified="onProductClassified"
       @scan-method-changed="onScanMethodChanged"
+      @doCancel="doCancel"
     />
     
     <div v-if="barcodeActive" class="barcode-scanner">
@@ -59,7 +60,8 @@ export default {
       capture: false,
       snackbar: false,
       barcodeActive: false,
-      infoText: ""
+      infoText: "",
+      productsClassified: 0
     };
   },
 
@@ -71,6 +73,8 @@ export default {
       }
 
       this.productThumbnails.push(product);
+
+      this.productsClassified++;
     },
 
     async addProduct(product) {
@@ -84,20 +88,11 @@ export default {
       );
     },
 
-    async goHome() {
-      this.cancel = true;
-
+    async doCancel(route) {
       await this.addAllProducts();
-
-      this.$router.push({ name: "home" });
-    },
-
-    async goToShoppingCart() {
-      this.cancel = true;
-
-      await this.addAllProducts();
-
-      this.$router.push({ name: "shopping-cart" });
+      if (route) {
+        this.$router.push(route);
+      }
     },
 
     async addAllProducts() {
@@ -124,6 +119,21 @@ export default {
           this.infoText = "Maak een foto van het product.";
           this.snackbar = true;
           break;
+      }
+    }
+  },
+
+  watch: {
+    async productsClassified(newValue) {
+      if (newValue == 3 && Math.random() > 0.5) {
+        const wantsUpsale = confirm(
+          "we hebben een speciaale aanbieding voor jou, Nu één citroen voor maar €0,30! Klik op OK om te kopen."
+        );
+
+        if (wantsUpsale) {
+          const product = await this.$productService.getByEan("2978742257496");
+          this.onProductClassified(product);
+        }
       }
     }
   }

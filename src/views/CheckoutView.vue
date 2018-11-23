@@ -39,8 +39,6 @@ export default {
         this.$store.state.userId
       );
 
-      console.log(cart)
-
       if (cart.items.filter(i => i.ean === donationEan).length > 0) {
         return;
       }
