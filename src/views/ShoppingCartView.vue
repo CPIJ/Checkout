@@ -20,7 +20,7 @@
                 :return-value.sync="props.item.amount"
                 @save="changeValue(props.item)"
               >
-                {{props.item.amount}}
+                {{props.item.isCharity ? "" : props.item.amount}}
                 <v-text-field
                   slot="input"
                   v-model="props.item.amount"
@@ -28,8 +28,8 @@
                 ></v-text-field>
               </v-edit-dialog>
             </td>
-            <td>€{{calculatePrice(props.item)}}</td>
-            <td class="text-sm-left"><v-icon @click="remove(props.item)">delete</v-icon></td>
+            <td>{{props.item.isCharity ? "" : "€" + calculatePrice(props.item)}}</td>
+            <td class="text-sm-left"><v-icon @click="remove(props.item)">{{props.item.isCharity ? "" : "delete"}}</v-icon></td>
           </tr>
         </template>
         <template v-if="!loading" slot="footer">
@@ -60,6 +60,7 @@ export default {
       this.$store.state.userId
     );
     this.products = this.cart.items;
+
     this.loading = false;
   },
 
@@ -126,7 +127,7 @@ export default {
 
     async saveState() {
       const updatedList = this.products.flatMap(p => {
-        const n = Number(p.amount)
+        const n = Number(p.amount);
         return Array(n > 10 ? 10 : n).fill(p.ean);
       });
       this.$productService.saveCart(this.cart.id, updatedList);
@@ -135,9 +136,21 @@ export default {
 
   computed: {
     totalAmount() {
-      return this.products
+      const total = this.products
         .reduce((acc, curr) => (acc += curr.price * curr.amount), 0)
         .toFixed(2);
+
+      if (this.products.filter(p => p.isCharity).length > 0) {
+        const roundedUp = Math.ceil(total).toFixed(2);
+
+        if (roundedUp === total) {
+          return (Number(roundedUp) + 1).toFixed(2);
+        } else {
+          return roundedUp;
+        }
+      }
+
+      return total;
     }
   }
 };
