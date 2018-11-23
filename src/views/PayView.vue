@@ -19,8 +19,8 @@
                   <template slot="items" slot-scope="props">
                     <tr :class="{'green lighten-5': props.item.isCharity}">
                       <td>{{props.item.name}}</td>
-                      <td>{{props.item.amount}}</td>
-                      <td>€{{(props.item.amount * props.item.price).toFixed(2)}}</td>
+                      <td>{{props.item.isCharity ? "" : props.item.amount}}</td>
+                      <td>{{props.item.isCharity ? "" : "€" + (props.item.amount * props.item.price).toFixed(2)}}</td>
                     </tr>
                   </template>
                   <template v-if="!loading" slot="footer">
@@ -106,7 +106,9 @@ export default {
     },
 
     async cancel() {
-      const wantsToCancel = confirm("Weet u zeker dat u de betaling wil afbreken?");
+      const wantsToCancel = confirm(
+        "Weet u zeker dat u de betaling wil afbreken?"
+      );
 
       if (wantsToCancel) {
         this.$router.go(-1);
@@ -115,9 +117,21 @@ export default {
   },
   computed: {
     totalAmount() {
-      return this.shoppingCart.items
-        .reduce((sum, current) => (sum += current.price * current.amount), 0)
+      const total = this.shoppingCart.items
+        .reduce((acc, curr) => (acc += curr.price * curr.amount), 0)
         .toFixed(2);
+
+      if (this.shoppingCart.items.filter(p => p.isCharity).length > 0) {
+        const roundedUp = Math.ceil(total).toFixed(2);
+
+        if (roundedUp === total) {
+          return (Number(roundedUp) + 1).toFixed(2);
+        } else {
+          return roundedUp;
+        }
+      }
+
+      return total;
     }
   }
 };
