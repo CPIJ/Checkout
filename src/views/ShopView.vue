@@ -59,12 +59,15 @@ export default {
       capture: false,
       snackbar: false,
       barcodeActive: false,
-      infoText: ""
+      infoText: "",
+      productsClassified: 0
     };
   },
 
   methods: {
     async onProductClassified(product) {
+      this.productsClassified++;
+
       if (this.productThumbnails.length >= 3) {
         const first = this.productThumbnails.shift();
         await this.addProduct(first);
@@ -124,6 +127,21 @@ export default {
           this.infoText = "Maak een foto van het product.";
           this.snackbar = true;
           break;
+      }
+    }
+  },
+
+  watch: {
+    async productsClassified(newValue) {
+      if (newValue == 3 && Math.random() > 0.5) {
+        const wantsUpsale = confirm(
+          "we hebben een speciaale aanbieding voor jou, Nu één citroen voor maar €0,30! Klik op OK om te kopen."
+        );
+
+        if (wantsUpsale) {
+          const product = await this.$productService.getByEan("2978742257496");
+          this.onProductClassified(product);
+        }
       }
     }
   }
