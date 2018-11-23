@@ -66,14 +66,14 @@ export default {
 
   methods: {
     async onProductClassified(product) {
-      this.productsClassified++;
-
       if (this.productThumbnails.length >= 3) {
         const first = this.productThumbnails.shift();
         await this.addProduct(first);
       }
 
       this.productThumbnails.push(product);
+
+      this.productsClassified++;
     },
 
     async addProduct(product) {
